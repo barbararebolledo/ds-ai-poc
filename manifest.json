@@ -6,16 +6,16 @@
   "components": [
     {
       "name": "Button",
-      "contract": "contracts/button.contract.json",
-      "docs": "docs/button.md",
+      "contract": "system/contracts/button.contract.json",
+      "docs": "system/docs/button.md",
       "figmaFileKey": "J6PCrb0xiyDTPxnB5hTfP3",
       "figmaNodeId": "10:3"
     }
   ],
   "tokens": {
-    "primitives": "tokens/primitives.json",
-    "semantic": "tokens/semantic.json",
-    "component": "tokens/component.json"
+    "primitives": "system/tokens/primitives.json",
+    "semantic": "system/tokens/semantic.json",
+    "component": "system/tokens/component.json"
   },
-  "index": "index/components.index.json"
+  "index": "system/index/components.index.json"
 }

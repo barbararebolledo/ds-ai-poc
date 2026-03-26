@@ -2,7 +2,16 @@
 
 ## [v1.2] -- in progress
 
-### Planned changes
+### Repo restructure
+
+- Separated into audit/ (versioned audit outputs) and system/ (POC tokens, contracts, index, docs)
+- Audit outputs moved to audit/toimi/v1.0/
+- POC system files moved to system/contracts/, system/tokens/, system/index/, system/docs/
+- Deleted superseded docs (architecture decisions, infrastructure guide) in favour of decisions/ ADRs and CONTEXT.md
+- CLAUDE.md, CONTEXT.md, manifest.json updated with new paths
+- docs/ at root reserved for GitHub Pages output in v1.3
+
+### Planned audit changes
 
 - Governance added as dimension 9, scored programmatically
 - Full inspection of all 40 components (v1.0 inspected 6)

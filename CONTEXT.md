@@ -6,13 +6,13 @@ The hypothesis is that design systems can be made machine-readable enough that A
 
 ## What exists in this repo
 
-The **three-layer token system** (tokens/) demonstrates the architecture that makes a design system machine-readable: primitives hold raw values, semantic tokens alias primitives by role, component tokens alias semantic tokens by component property and state. Alias chains must remain unbroken. This architecture was built from scratch for the POC.
+The **three-layer token system** (system/tokens/) demonstrates the architecture that makes a design system machine-readable: primitives hold raw values, semantic tokens alias primitives by role, component tokens alias semantic tokens by component property and state. Alias chains must remain unbroken. This architecture was built from scratch for the POC.
 
-The **Button POC** (contracts/button.contract.json, docs/button.md) is a single component implemented against the three-layer architecture with all properties bound to Figma Variables. It proves that a component defined this way can be fully resolved from tokens by an AI agent without human intervention.
+The **Button POC** (system/contracts/button.contract.json, system/docs/button.md) is a single component implemented against the three-layer architecture with all properties bound to Figma Variables. It proves that a component defined this way can be fully resolved from tokens by an AI agent without human intervention.
 
-The **component contract format** (contracts/) defines the schema for describing a component's properties, variants, states, and token bindings in JSON. It is the interface between Figma (where the component lives) and the agent (which reads the contract to understand how to use it).
+The **component contract format** (system/contracts/) defines the schema for describing a component's properties, variants, states, and token bindings in JSON. It is the interface between Figma (where the component lives) and the agent (which reads the contract to understand how to use it).
 
-The **audit structure** (audit/) contains the v1.0 AI-readiness assessment of the Toimi Foundation and Component libraries. The JSON file is the machine-readable source of truth. The Markdown file is derived from it. Together they score the system across eight dimensions and report findings, recommendations, and data gaps.
+The **audit structure** (audit/toimi/) contains versioned AI-readiness assessments of the Toimi Foundation and Component libraries. Each version has a JSON source of truth and a Markdown summary derived from it. Audits are organised by library and version (v1.0, v1.2).
 
 The **decisions directory** (decisions/) records architecture decision records for the audit methodology and its evolution.
 

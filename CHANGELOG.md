@@ -1,5 +1,52 @@
 # Changelog
 
+## [v1.3] -- in progress
+
+### Reorientation and planning
+
+- Tool reoriented as client-agnostic. Core script, schema, and dimensions are not
+  modified for client needs. Client adaptation uses a duplicate repo plus
+  client-specific prompt and config variants.
+- Target state defined: four-phase sequence (Audit, MVP, Beta, Stable). Phase 4 is
+  the vision -- multiple agents active, designers define intent.
+- Release plan documented in docs/exploration-plan.md covering Releases 1.3 to 3.0+.
+- Test vehicle changed from Toimi to Material UI (Figma community file + GitHub repo)
+  for Releases 1.3 through 2.1. Studio library follows in Release 2.1.
+
+### Dimensions
+
+- Dimension 10 added: documentation quality and intent coverage. Reads from component
+  description field first; falls back to documentation frames if absent or thin.
+- Full ten dimensions now defined in CLAUDE.md as stable reference. Prompt files
+  reference them rather than redefining them.
+
+### Schema
+
+- audit-schema_v1.3.json designed and written to disk.
+- Findings now reference contract fields (type, level, path, field) for future
+  codegen pipeline compatibility.
+- contract_id gap identified: contracts currently referenced by path only. Adding a
+  contract_id field to contracts is deferred to v1.4.
+- Schema is additive-only from v1.3 onward. No breaking changes after this version.
+
+### Repo and documentation
+
+- CLAUDE.md updated to reflect client-agnostic architecture, ten dimensions, client
+  adaptation instructions, and current state.
+- CONTEXT.md updated with reorientation decisions and session learnings.
+- decisions/ open items added covering skills review findings and gap analysis
+  (Edenspiekermann, Firebender, MUI file confirmation, code token format,
+  colleague schema alignment).
+```
+
+---
+
+That is everything. Once you have added this to `CHANGELOG.md` and the `CONTEXT.md` update from the previous message, you have one clean commit that covers the full reorientation session.
+
+Commit message suggestion:
+```
+docs: reorientation session -- CLAUDE.md, CONTEXT.md, CHANGELOG.md, schema v1.3
+
 ## [v1.2] -- in progress
 
 ### Repo restructure

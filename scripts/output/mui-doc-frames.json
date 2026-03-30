@@ -1,0 +1,860 @@
+{
+  "_meta": {
+    "generatedAt": "2026-03-30T16:31:09.144Z",
+    "source": "Figma REST API /v1/files/0C5ShRQnETNce2CoupX1IJ/nodes",
+    "fileKey": "0C5ShRQnETNce2CoupX1IJ",
+    "description": "Documentation frame metadata extracted from MUI Figma community file. Feeds Cluster 3 dimension 3.5.",
+    "readerVersion": "1.0",
+    "totalPages": 6,
+    "totalSubComponents": 17
+  },
+  "components": [
+    {
+      "figmaPageId": "4213:9637",
+      "componentName": "Alert",
+      "category": "Data Display",
+      "pageDescription": "An alert displays a short, important message in a way that attracts the user's attention without interrupting the user's task.",
+      "pageDescriptionIsPlaceholder": false,
+      "version": "v7.2.0",
+      "subComponents": [
+        {
+          "name": "<Alert>",
+          "description": null,
+          "hasPlaceholderDescription": true,
+          "figmaNodeId": "6642:19358",
+          "type": "COMPONENT_SET",
+          "variantCount": 12,
+          "variantAxes": [
+            {
+              "name": "Severity",
+              "options": [
+                "Error",
+                "Warning",
+                "Info",
+                "Success"
+              ],
+              "default": "Error"
+            },
+            {
+              "name": "Variant",
+              "options": [
+                "Filled",
+                "Outlined",
+                "Standard"
+              ],
+              "default": "Filled"
+            }
+          ],
+          "booleanProps": [
+            "On Close",
+            "Action",
+            "Description",
+            "Title"
+          ],
+          "textProps": [
+            "↳ Title",
+            "↳ Description"
+          ],
+          "instanceSwapProps": [
+            "↳Instance"
+          ],
+          "documentedProperties": [
+            "Severity",
+            "Title",
+            "Description",
+            "Action",
+            "Instance",
+            "On Close",
+            "Description Content",
+            "Title Content",
+            "Variant"
+          ]
+        }
+      ],
+      "exampleFrames": [
+        "Alert: examples"
+      ],
+      "compositionNotes": null
+    },
+    {
+      "figmaPageId": "6466:23523",
+      "componentName": "Card",
+      "category": "Surfaces",
+      "pageDescription": "Cards contain content and actions about a single subject.",
+      "pageDescriptionIsPlaceholder": false,
+      "version": "v7.2.0",
+      "subComponents": [
+        {
+          "name": "<CardHeader>",
+          "description": null,
+          "hasPlaceholderDescription": true,
+          "figmaNodeId": "6646:210556",
+          "type": "COMPONENT_SET",
+          "variantCount": 2,
+          "variantAxes": [
+            {
+              "name": "Avatar",
+              "options": [
+                "False",
+                "True"
+              ],
+              "default": "False"
+            }
+          ],
+          "booleanProps": [
+            "Subheader",
+            "Right Action"
+          ],
+          "textProps": [
+            "Header",
+            "↳ Value"
+          ],
+          "instanceSwapProps": [
+            "↳ Instance"
+          ],
+          "documentedProperties": [
+            "Avatar",
+            "Subheader",
+            "Value",
+            "Right Action",
+            "Instance",
+            "Header"
+          ]
+        },
+        {
+          "name": "<CardActions>",
+          "description": null,
+          "hasPlaceholderDescription": true,
+          "figmaNodeId": "6648:212615",
+          "type": "COMPONENT",
+          "variantCount": 3,
+          "variantAxes": [],
+          "booleanProps": [],
+          "textProps": [],
+          "instanceSwapProps": [],
+          "documentedProperties": [
+            "Avatar",
+            "Subheader"
+          ]
+        },
+        {
+          "name": "<CardContent>",
+          "description": null,
+          "hasPlaceholderDescription": true,
+          "figmaNodeId": "6648:212604",
+          "type": "COMPONENT",
+          "variantCount": 1,
+          "variantAxes": [],
+          "booleanProps": [],
+          "textProps": [],
+          "instanceSwapProps": [],
+          "documentedProperties": [
+            "Avatar",
+            "Subheader",
+            "Right Action",
+            "Instance"
+          ]
+        },
+        {
+          "name": "<CardMedia>",
+          "description": null,
+          "hasPlaceholderDescription": true,
+          "figmaNodeId": "6646:210636",
+          "type": "COMPONENT_SET",
+          "variantCount": 2,
+          "variantAxes": [
+            {
+              "name": "Ratio",
+              "options": [
+                "4x3",
+                "1:9"
+              ],
+              "default": "4x3"
+            }
+          ],
+          "booleanProps": [],
+          "textProps": [],
+          "instanceSwapProps": [
+            "↳ Instance"
+          ],
+          "documentedProperties": [
+            "Avatar",
+            "Subheader",
+            "Right Action",
+            "Instance"
+          ]
+        },
+        {
+          "name": "Card Elements Bundled",
+          "description": null,
+          "hasPlaceholderDescription": true,
+          "figmaNodeId": null,
+          "type": null,
+          "variantCount": 0,
+          "variantAxes": [],
+          "booleanProps": [],
+          "textProps": [],
+          "instanceSwapProps": [],
+          "documentedProperties": [
+            "CardHeader",
+            "CardContent",
+            "CardActions",
+            "CardMedia"
+          ]
+        },
+        {
+          "name": "<Card>",
+          "description": null,
+          "hasPlaceholderDescription": true,
+          "figmaNodeId": "6646:210756",
+          "type": "COMPONENT_SET",
+          "variantCount": 4,
+          "variantAxes": [
+            {
+              "name": "Small Screen",
+              "options": [
+                "False",
+                "True"
+              ],
+              "default": "False"
+            },
+            {
+              "name": "Blank",
+              "options": [
+                "False",
+                "True"
+              ],
+              "default": "False"
+            }
+          ],
+          "booleanProps": [],
+          "textProps": [],
+          "instanceSwapProps": [],
+          "documentedProperties": [
+            "Small Screen",
+            "Blank",
+            "Title",
+            "Footer Actions"
+          ]
+        }
+      ],
+      "exampleFrames": [],
+      "compositionNotes": "Compound component with 6 sub-components: <CardHeader>, <CardActions>, <CardContent>, <CardMedia>, Card Elements Bundled, <Card>"
+    },
+    {
+      "figmaPageId": "4410:8273",
+      "componentName": "Avatar",
+      "category": "Data Display",
+      "pageDescription": "Avatars are found throughout material design with uses in everything from tables to dialog menus.",
+      "pageDescriptionIsPlaceholder": false,
+      "version": "v7.2.0",
+      "subComponents": [
+        {
+          "name": "<Avatar>",
+          "description": "Main avatar components, reflects the",
+          "hasPlaceholderDescription": false,
+          "figmaNodeId": "6650:230484",
+          "type": "COMPONENT_SET",
+          "variantCount": 36,
+          "variantAxes": [
+            {
+              "name": "Size",
+              "options": [
+                "40px",
+                "32px",
+                "24px",
+                "18px"
+              ],
+              "default": "40px"
+            },
+            {
+              "name": "Variant",
+              "options": [
+                "Circular",
+                "Rounded",
+                "Square"
+              ],
+              "default": "Circular"
+            },
+            {
+              "name": "Content",
+              "options": [
+                "Text",
+                "Icon",
+                "Image"
+              ],
+              "default": "Text"
+            }
+          ],
+          "booleanProps": [
+            "Badge"
+          ],
+          "textProps": [
+            "Initials"
+          ],
+          "instanceSwapProps": [],
+          "documentedProperties": [
+            "Size",
+            "Variant",
+            "Content",
+            "Initials",
+            "Badge"
+          ]
+        },
+        {
+          "name": "<AvatarGroup>",
+          "description": null,
+          "hasPlaceholderDescription": true,
+          "figmaNodeId": "6650:230739",
+          "type": "COMPONENT_SET",
+          "variantCount": 36,
+          "variantAxes": [
+            {
+              "name": "Spacing",
+              "options": [
+                "Medium",
+                "Small",
+                "Number"
+              ],
+              "default": "Medium"
+            },
+            {
+              "name": "Max",
+              "options": [
+                "2",
+                "3",
+                "4",
+                "5"
+              ],
+              "default": "2"
+            },
+            {
+              "name": "Size",
+              "options": [
+                "40px",
+                "32px",
+                "24px"
+              ],
+              "default": "40px"
+            }
+          ],
+          "booleanProps": [],
+          "textProps": [],
+          "instanceSwapProps": [],
+          "documentedProperties": [
+            "Spacing",
+            "Count",
+            "Size"
+          ]
+        }
+      ],
+      "exampleFrames": [
+        "Avatar: examples"
+      ],
+      "compositionNotes": null
+    },
+    {
+      "figmaPageId": "4213:2103",
+      "componentName": "Button",
+      "category": "Inputs",
+      "pageDescription": "Buttons allow users to take actions, and make choices, with a single tap.",
+      "pageDescriptionIsPlaceholder": false,
+      "version": "v7.2.0",
+      "subComponents": [
+        {
+          "name": "<Button>",
+          "description": null,
+          "hasPlaceholderDescription": true,
+          "figmaNodeId": "6636:13205",
+          "type": "COMPONENT_SET",
+          "variantCount": 360,
+          "variantAxes": [
+            {
+              "name": "Size",
+              "options": [
+                "Large",
+                "Medium",
+                "Small"
+              ],
+              "default": "Large"
+            },
+            {
+              "name": "Color",
+              "options": [
+                "Primary",
+                "Secondary",
+                "Error",
+                "Warning",
+                "Info",
+                "Success",
+                "Inherit",
+                "Inherit (white)"
+              ],
+              "default": "Primary"
+            },
+            {
+              "name": "State",
+              "options": [
+                "Enabled",
+                "Hovered",
+                "Focused",
+                "Pressed",
+                "Disabled"
+              ],
+              "default": "Enabled"
+            },
+            {
+              "name": "Variant",
+              "options": [
+                "Contained",
+                "Outlined",
+                "Text"
+              ],
+              "default": "Contained"
+            }
+          ],
+          "booleanProps": [
+            "Start Icon",
+            "End Icon"
+          ],
+          "textProps": [
+            "Label"
+          ],
+          "instanceSwapProps": [
+            "↳ Start Icon",
+            "↳ End Icon"
+          ],
+          "documentedProperties": [
+            "Size",
+            "Color",
+            "State",
+            "Start Icon",
+            "End Icon",
+            "Label",
+            "Loading Start",
+            "Loading End",
+            "Start Icon",
+            "End Icon",
+            "Variant"
+          ]
+        },
+        {
+          "name": "<LoadingButton>",
+          "description": null,
+          "hasPlaceholderDescription": true,
+          "figmaNodeId": "6636:15468",
+          "type": "COMPONENT_SET",
+          "variantCount": 9,
+          "variantAxes": [
+            {
+              "name": "Size",
+              "options": [
+                "Large",
+                "Medium",
+                "Small"
+              ],
+              "default": "Large"
+            },
+            {
+              "name": "Variant",
+              "options": [
+                "Contained",
+                "Outlined",
+                "Text"
+              ],
+              "default": "Contained"
+            }
+          ],
+          "booleanProps": [
+            "Loading Start",
+            "Loading End"
+          ],
+          "textProps": [
+            "Label"
+          ],
+          "instanceSwapProps": [],
+          "documentedProperties": [
+            "Size",
+            "Color",
+            "State",
+            "Start Icon",
+            "End Icon",
+            "Label",
+            "Loading Start",
+            "Loading End",
+            "Start Icon",
+            "End Icon",
+            "Variant"
+          ]
+        },
+        {
+          "name": "<IconButton>",
+          "description": null,
+          "hasPlaceholderDescription": true,
+          "figmaNodeId": "6636:15727",
+          "type": "COMPONENT_SET",
+          "variantCount": 135,
+          "variantAxes": [
+            {
+              "name": "Size",
+              "options": [
+                "Medium",
+                "Small",
+                "Large"
+              ],
+              "default": "Medium"
+            },
+            {
+              "name": "Color",
+              "options": [
+                "Default",
+                "Primary",
+                "Secondary",
+                "Error",
+                "Warning",
+                "Info",
+                "Success",
+                "Inherit",
+                "Inherit (white)"
+              ],
+              "default": "Default"
+            },
+            {
+              "name": "State",
+              "options": [
+                "Enabled",
+                "Hovered",
+                "Focused",
+                "Pressed",
+                "Disabled"
+              ],
+              "default": "Enabled"
+            }
+          ],
+          "booleanProps": [],
+          "textProps": [],
+          "instanceSwapProps": [],
+          "documentedProperties": [
+            "Font Size",
+            "Size",
+            "Color",
+            "Icon",
+            "State"
+          ]
+        }
+      ],
+      "exampleFrames": [
+        "▶️ Button: loading",
+        "▶️ IconButton: account menu"
+      ],
+      "compositionNotes": "Compound component with 3 sub-components: <Button>, <LoadingButton>, <IconButton>"
+    },
+    {
+      "figmaPageId": "4213:9430",
+      "componentName": "Checkbox",
+      "category": "Input",
+      "pageDescription": "Checkboxes allow the user to select one or more items from a set.",
+      "pageDescriptionIsPlaceholder": false,
+      "version": "v7.2.0",
+      "subComponents": [
+        {
+          "name": "<Checkbox>",
+          "description": null,
+          "hasPlaceholderDescription": true,
+          "figmaNodeId": "6653:8148",
+          "type": "COMPONENT_SET",
+          "variantCount": 246,
+          "variantAxes": [
+            {
+              "name": "Checked",
+              "options": [
+                "False",
+                "True"
+              ],
+              "default": "False"
+            },
+            {
+              "name": "Indeterminate",
+              "options": [
+                "False",
+                "True"
+              ],
+              "default": "False"
+            },
+            {
+              "name": "Size",
+              "options": [
+                "Medium",
+                "Small",
+                "Large"
+              ],
+              "default": "Medium"
+            },
+            {
+              "name": "Color",
+              "options": [
+                "Default",
+                "Primary",
+                "Secondary",
+                "Error",
+                "Warning",
+                "Info",
+                "Success"
+              ],
+              "default": "Primary"
+            },
+            {
+              "name": "State",
+              "options": [
+                "Enabled",
+                "Hovered",
+                "Focused",
+                "Pressed",
+                "Disabled"
+              ],
+              "default": "Enabled"
+            }
+          ],
+          "booleanProps": [],
+          "textProps": [],
+          "instanceSwapProps": [],
+          "documentedProperties": [
+            "Checked",
+            "Indeterminate",
+            "Size",
+            "Color",
+            "State",
+            "Label",
+            "Value"
+          ]
+        },
+        {
+          "name": "<FormControlLabel> | Checkbox",
+          "description": "Used in <TextField> component.",
+          "hasPlaceholderDescription": false,
+          "figmaNodeId": "6653:8977",
+          "type": "COMPONENT_SET",
+          "variantCount": 8,
+          "variantAxes": [
+            {
+              "name": "Label Placement",
+              "options": [
+                "End",
+                "Start",
+                "Top",
+                "Bottom"
+              ],
+              "default": "End"
+            },
+            {
+              "name": "Disabled",
+              "options": [
+                "False",
+                "True"
+              ],
+              "default": "False"
+            }
+          ],
+          "booleanProps": [],
+          "textProps": [],
+          "instanceSwapProps": [],
+          "documentedProperties": [
+            "Label Placement"
+          ]
+        },
+        {
+          "name": "<FormGroup> | <Checkbox>",
+          "description": "FormGroup wraps controls such as Checkbox and Switch. It provides compact row layout. For the Radio, you should be using the RadioGroup component instead of this one.",
+          "hasPlaceholderDescription": false,
+          "figmaNodeId": "6653:9088",
+          "type": "COMPONENT_SET",
+          "variantCount": 6,
+          "variantAxes": [
+            {
+              "name": "State",
+              "options": [
+                "Enabled",
+                "Disabled",
+                "Error"
+              ],
+              "default": "Enabled"
+            },
+            {
+              "name": "Checkboxes",
+              "options": [
+                "3",
+                "5"
+              ],
+              "default": "3"
+            }
+          ],
+          "booleanProps": [
+            "<FormLabel>",
+            "<FormHelperText>"
+          ],
+          "textProps": [],
+          "instanceSwapProps": [],
+          "documentedProperties": [
+            "State",
+            "Size",
+            "Color",
+            "State",
+            "Label"
+          ]
+        }
+      ],
+      "exampleFrames": [
+        "Checkbox: examples"
+      ],
+      "compositionNotes": "Compound component with 3 sub-components: <Checkbox>, <FormControlLabel> | Checkbox, <FormGroup> | <Checkbox>"
+    },
+    {
+      "figmaPageId": "4213:8332",
+      "componentName": "Text Field",
+      "category": "Input",
+      "pageDescription": "Text fields let users enter and edit text.",
+      "pageDescriptionIsPlaceholder": false,
+      "version": "v7.2.0",
+      "subComponents": [
+        {
+          "name": "<TextField>",
+          "description": null,
+          "hasPlaceholderDescription": true,
+          "figmaNodeId": "6660:9475",
+          "type": "COMPONENT_SET",
+          "variantCount": 60,
+          "variantAxes": [
+            {
+              "name": "Variant",
+              "options": [
+                "Standard",
+                "Filled",
+                "Outlined"
+              ],
+              "default": "Standard"
+            },
+            {
+              "name": "Size",
+              "options": [
+                "Medium",
+                "Small"
+              ],
+              "default": "Medium"
+            },
+            {
+              "name": "State",
+              "options": [
+                "Enabled",
+                "Hovered",
+                "Focused",
+                "Disabled",
+                "Error"
+              ],
+              "default": "Enabled"
+            },
+            {
+              "name": "Has Value",
+              "options": [
+                "False",
+                "True"
+              ],
+              "default": "True"
+            }
+          ],
+          "booleanProps": [
+            "Type: number",
+            "Helper",
+            "Adorn. Start",
+            "Adorn. End",
+            "Value",
+            "Placeholder"
+          ],
+          "textProps": [
+            "↳ Value",
+            "Label",
+            "↳ Placeholder"
+          ],
+          "instanceSwapProps": [
+            "↳ Start Instance",
+            "↳ End Instance"
+          ],
+          "documentedProperties": [
+            "Size",
+            "State",
+            "Has Value",
+            "*Adorn. Start",
+            "Adorn. End*",
+            "Show Value",
+            "Show Placeholder",
+            "Helper",
+            "Label",
+            "Value",
+            "Start Instance",
+            "End Instance",
+            "Value",
+            "Placeholder",
+            "Helper",
+            "Placeholder"
+          ]
+        },
+        {
+          "name": "<Multiline>",
+          "description": null,
+          "hasPlaceholderDescription": true,
+          "figmaNodeId": "6660:10344",
+          "type": "COMPONENT_SET",
+          "variantCount": 21,
+          "variantAxes": [
+            {
+              "name": "Variant",
+              "options": [
+                "Standard",
+                "Outlined",
+                "Filled"
+              ],
+              "default": "Standard"
+            },
+            {
+              "name": "Min Rows",
+              "options": [
+                "False",
+                "True"
+              ],
+              "default": "False"
+            },
+            {
+              "name": "Max Rows",
+              "options": [
+                "False",
+                "True"
+              ],
+              "default": "False"
+            },
+            {
+              "name": "Rows",
+              "options": [
+                "Flexible",
+                "4",
+                "6",
+                "8"
+              ],
+              "default": "Flexible"
+            }
+          ],
+          "booleanProps": [],
+          "textProps": [],
+          "instanceSwapProps": [],
+          "documentedProperties": [
+            "Min Rows",
+            "Max Rows",
+            "Rows"
+          ]
+        }
+      ],
+      "exampleFrames": [
+        "Text Field: examples"
+      ],
+      "compositionNotes": null
+    }
+  ]
+}

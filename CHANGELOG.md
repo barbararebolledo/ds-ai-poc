@@ -1,5 +1,66 @@
 # Changelog
 
+## [v1.4] -- 2026-03-30
+
+Scoring methodology formalised and weight redistribution based on MUI v1.3 audit evidence.
+
+### Scoring methodology
+
+- Two-layer scoring system: sub-checks scored 0-4, dimension scores derived as
+  average of sub-check scores x 25 (producing 0-100). Documented aggregation
+  formula replaces v1.3 implicit scoring.
+- 41 sub-checks defined across eleven dimensions. Each has an ID, description,
+  data source, and scoring guidance.
+- Override rule: any sub-check scoring 0 forces dimension severity to blocker
+  regardless of composite score.
+- Severity thresholds configurable per dimension with client overrides.
+- v1.3 and v1.4 scores are not directly comparable due to methodology change.
+
+### Weight redistribution
+
+- Flat v1.3 weights replaced with three-tier system:
+  - Tier 1 (agent cannot operate): token_architecture_depth (0.14),
+    component_to_token_binding (0.14), component_description_coverage (0.12),
+    documentation_quality (0.12). Total: 0.52.
+  - Tier 2 (output quality degrades): token_implementation (0.10),
+    alias_chain_integrity (0.08), accessibility_intent_coverage (0.08),
+    platform_readiness_gap (0.07). Total: 0.33.
+  - Tier 3 (system hygiene): primitive_naming (0.06),
+    naming_convention_consistency (0.05), governance (0.04). Total: 0.15.
+- Rationale: MUI v1.3 audit scored 72 on token implementation (v1.3 highest
+  weight) but was not ready. The four blockers were all in dimensions that
+  v1.3 weighted lowest. Weights now reflect observed impact on AI agent
+  operability.
+
+### Dimensions
+
+- Dimension 8 renamed from web_readiness_gap to platform_readiness_gap.
+  Platform-specific checks configured in client scoring config.
+- Dimension 11 added: accessibility_intent_coverage with WCAG 2.2 Level AA
+  default thresholds. Five sub-checks: focus states, touch targets, contrast
+  derivability, keyboard navigation, accessibility mentions.
+
+### Schema
+
+- audit-schema_v1.4.json: additive extension of v1.3.
+- Added accessibility_intent_coverage and platform_readiness_gap dimension keys.
+- Added sub_check_scores (optional) to DimensionEntry.
+- Added phase_readiness_detail (optional) to Summary.
+- Added AIC and PRG finding ID abbreviations.
+- web_readiness_gap retained for backward compatibility, marked deprecated.
+
+### Phase readiness
+
+- phase_readiness_detail added as required output: blocking dimensions, warning
+  dimensions, and explicit conditions for advancement.
+- Phase readiness logic unchanged: pass (>= 75, 0 blockers), conditional_pass
+  (>= 50, 0 blockers), not_ready (any blocker OR < 50).
+
+### Config
+
+- scoring-weights_v1.4.json: scoring_methodology, severity_thresholds,
+  sub_checks blocks added. Dimension weights updated to tiered distribution.
+
 ## [v1.3] -- 2026-03-30
 
 Audit complete: Material UI 44.3/100 not ready

@@ -1,0 +1,357 @@
+{
+  "name": "Material UI for Figma",
+  "lastModified": "2026-03-30T09:59:17Z",
+  "schemaVersion": 0,
+  "pages": [
+    {
+      "id": "6036:164056",
+      "name": "Welcome (delete this)",
+      "type": "CANVAS"
+    },
+    {
+      "id": "4213:1335",
+      "name": "Overview",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6316:17167",
+      "name": "Theme",
+      "type": "CANVAS"
+    },
+    {
+      "id": "4230:722",
+      "name": "COMPONENTS",
+      "type": "CANVAS"
+    },
+    {
+      "id": "4213:9637",
+      "name": "     \u2756 Alert",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6466:23523",
+      "name": "     \u2756 Card",
+      "type": "CANVAS"
+    },
+    {
+      "id": "4410:8273",
+      "name": "     \u2756 Avatar",
+      "type": "CANVAS"
+    },
+    {
+      "id": "4213:2103",
+      "name": "     \u2756 Button",
+      "type": "CANVAS"
+    },
+    {
+      "id": "4213:9430",
+      "name": "     \u2756 Checkbox",
+      "type": "CANVAS"
+    },
+    {
+      "id": "4213:8332",
+      "name": "     \u2756 Text Field",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6022:38864",
+      "name": "INSTANCES",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6025:27711",
+      "name": "\u2193 Inputs",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6024:28818",
+      "name": "     \u2662 Autocomplete",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6025:27710",
+      "name": "     \u2662 Button Group",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6026:36900",
+      "name": "     \u2662 Floating Action Button",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6026:40845",
+      "name": "     \u2662 Radio Group",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6026:45152",
+      "name": "     \u2662 Rating",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6026:46349",
+      "name": "     \u2662 Select",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6026:53669",
+      "name": "     \u2662 Slider",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6026:70407",
+      "name": "     \u2662 Switch",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6026:76192",
+      "name": "     \u2662 Transfer List",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6026:77516",
+      "name": "     \u2662 Toogle button",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6026:96433",
+      "name": "\u2193 Data Display",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6026:96434",
+      "name": "     \u2662 Badge",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6026:96950",
+      "name": "     \u2662 Chip",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6026:105453",
+      "name": "     \u2662 Divider",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6682:2879",
+      "name": "     \u2662 Icon",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6026:105510",
+      "name": "     \u2662 List",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6030:70742",
+      "name": "     \u2662 Table",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6030:115698",
+      "name": "     \u2662 Tooltip",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6030:115885",
+      "name": "     \u2662 Typography",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6032:86820",
+      "name": "\u2193 Feedback",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6032:92216",
+      "name": "     \u2662 Backdrop",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6032:92295",
+      "name": "     \u2662 Progress",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6684:2933",
+      "name": "     \u2662 Dialog",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6686:3305",
+      "name": "     \u2662 Progress",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6032:93441",
+      "name": "     \u2662 Skeleton",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6032:93543",
+      "name": "     \u2662 Snackbar",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6032:93846",
+      "name": "\u2193 Feedback",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6032:93848",
+      "name": "     \u2662 Accordion",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6032:94393",
+      "name": "     \u2662 App Bar",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6032:96788",
+      "name": "     \u2662 Paper",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6687:5027",
+      "name": "     \u2662 Popover",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6032:97953",
+      "name": "\u2193 Navigation",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6032:97954",
+      "name": "     \u2662 Bottom Navigation",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6032:98559",
+      "name": "     \u2662 Breadcrumbs",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6032:99232",
+      "name": "     \u2662 Drawer",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6032:99609",
+      "name": "     \u2662 Link",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6032:99914",
+      "name": "     \u2662 Menu",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6032:108054",
+      "name": "     \u2662 Pagination",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6032:113598",
+      "name": "     \u2662 Speed Dial",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6032:114101",
+      "name": "     \u2662 Stepper",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6035:97073",
+      "name": "     \u2662 Tabs",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6035:100060",
+      "name": "\u2193 Layout",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6035:100061",
+      "name": "     \u2662 Container",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6325:33664",
+      "name": "     \u2662 Spacing",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6035:100101",
+      "name": "     \u2662 Stack",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6035:100829",
+      "name": "     \u2662 Timeline",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6693:12243",
+      "name": "     \u2662 Image List",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6035:102819",
+      "name": "\u2193 MUI X",
+      "type": "CANVAS"
+    },
+    {
+      "id": "4877:71571",
+      "name": "     \u2662 Data Grid",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6035:158213",
+      "name": "     \u2662 Date / Time",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6478:35773",
+      "name": "     \u2662 Charts",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6035:102225",
+      "name": "     \u2662 Tree View",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6333:39014",
+      "name": "Blocks",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6333:39015",
+      "name": "     \u2662 Forms",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6333:141356",
+      "name": "     \u2662 Headings",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6333:146989",
+      "name": "     \u2662 Navs",
+      "type": "CANVAS"
+    },
+    {
+      "id": "6333:147773",
+      "name": "     \u2662 Screens",
+      "type": "CANVAS"
+    },
+    {
+      "id": "5619:112507",
+      "name": "Misc",
+      "type": "CANVAS"
+    }
+  ]
+}

@@ -18,20 +18,29 @@ Save these rules as a separate file in the same branch.
 
 ---
 
-## Your branch
+## Two repos, two purposes
 
-You work on a branch, not on main. Only Barbara pushes to main.
+You have access to two repositories:
 
-To create your branch (one time, in the terminal):
+**Audit repo** (`ds-ai-audit`) -- where you edit. This is where
+the JSON lives and where you push your rewrites to your branch.
+
+**Dashboard repo** (`ds-audit-dashboard`) -- where you preview
+and share. You copy your rewritten JSON here so you can see how
+the copy looks in the dashboard, and so Barbara can review your
+changes visually.
+
+---
+
+## Your branch on the audit repo
+
+Your branch is already created: `content/findings-rewrite`.
+
+To clone the repo and get on your branch (one time):
 
 ```
-cd /Users/barbara.rebolledo/Github\ repo/ds-ai-audit
-git checkout -b content/findings-rewrite
-```
-
-To switch to your branch if it already exists:
-
-```
+git clone https://github.com/barbararebolledo/ds-ai-audit.git
+cd ds-ai-audit
 git checkout content/findings-rewrite
 ```
 
@@ -43,44 +52,73 @@ git commit -m "rewrite: [brief description of what you changed]"
 git push origin content/findings-rewrite
 ```
 
-When a batch of rewrites is ready for review, tell Barbara. She
-will review and merge to main.
+Important: only push to your branch. Do not push to main. Only
+Barbara merges to main.
+
+### Staying up to date
+
+Barbara will make changes to main (adding features, updating the
+schema, knowledge layer work). To get those changes into your
+branch:
+
+```
+git checkout content/findings-rewrite
+git pull origin main
+```
+
+This merges Barbara's latest changes into your branch. Do this
+regularly so you are working with the latest version of the repo.
 
 ---
 
-## How you see your changes
+## Previewing in the dashboard
 
-The dashboard (`ds-audit-dashboard` repo) displays the audit JSON
-visually. You use it to see how your rewritten copy looks in
-context: in the overview, in the cluster detail, in finding lists.
+The dashboard displays the audit JSON visually. You use it to see
+how your rewritten copy looks in context.
 
-To run the dashboard locally:
+### Setup (one time)
 
-1. Open the `ds-audit-dashboard` folder in Cursor
-2. Open the terminal in Cursor (Terminal > New Terminal)
-3. Install dependencies (first time only):
+```
+git clone https://github.com/barbararebolledo/ds-audit-dashboard.git
+cd ds-audit-dashboard
+npm install
+```
+
+### Preview cycle
+
+1. Copy your updated JSON into the dashboard data folder:
    ```
-   npm install
+   cp ~/ds-ai-audit/audit/material-ui/v2.1/mui-audit-v2.1.json ~/ds-audit-dashboard/src/data/audit-data.json
    ```
-4. Start the dev server:
+   (Adjust the paths to match where you cloned the repos.)
+
+2. Start the dev server (if not already running):
    ```
+   cd ~/ds-audit-dashboard
    npm run dev
    ```
-5. Open the URL it shows (usually http://localhost:5173)
 
-The dashboard reads from a JSON file in its own `src/data/`
-directory. To see your changes:
+3. Open http://localhost:5173 in your browser. It hot-reloads
+   when the JSON changes.
 
-1. Copy your updated audit JSON from the audit repo into the
-   dashboard's data directory:
-   ```
-   cp /Users/barbara.rebolledo/Github\ repo/ds-ai-audit/audit/material-ui/v2.1/mui-audit-v2.1.json /Users/barbara.rebolledo/Github\ repo/ds-audit-dashboard/src/data/audit-data.json
-   ```
-2. The dashboard should hot-reload automatically. If not, refresh
-   the browser.
+### Pushing to the dashboard
 
-You do not need to commit anything in the dashboard repo. It is
-just your preview tool.
+After previewing, commit and push the updated JSON to the
+dashboard repo so Barbara can also see your changes:
+
+```
+cd ~/ds-audit-dashboard
+git pull
+git add src/data/audit-data.json
+git commit -m "data: updated findings copy"
+git push
+```
+
+Only push the data file (`src/data/audit-data.json`). Do not
+change any other files in the dashboard repo.
+
+Pull before pushing (`git pull`) to get Barbara's latest
+front-end changes.
 
 ---
 
@@ -90,22 +128,19 @@ just your preview tool.
 Claude Code helps you reason about rewrites, test phrasing, and
 develop the writing rules.
 
-**Cursor** -- for running the dashboard preview. You open the
-dashboard repo here, start the dev server, and view your changes
-in the browser.
+**Browser** -- for previewing the dashboard at localhost:5173.
 
 **Git** -- for version control. Barbara will help you with the
-initial setup. After that, the three commands above (add, commit,
-push) are all you need.
+initial setup.
 
-You do not need both VS Code and Cursor open at the same time.
 A typical cycle:
 
-1. Open VS Code with the audit repo. Use Claude Code to rewrite
-   a batch of findings.
-2. When you want to preview, open Cursor with the dashboard repo,
-   copy the JSON over, and check the result in the browser.
-3. Go back to VS Code for the next batch.
+1. Open VS Code with the audit repo on your branch. Use Claude
+   Code to rewrite a batch of findings.
+2. Copy the JSON to the dashboard data folder and check the
+   result in the browser.
+3. Commit and push to both repos when a batch is ready.
+4. Tell Barbara the batch is ready for review.
 
 ---
 

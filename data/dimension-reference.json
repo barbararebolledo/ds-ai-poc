@@ -1,5 +1,5 @@
 {
-  "$comment": "Dimension reference for front-end and agent consumption. Extracted from CLAUDE.md, docs/audit-dimensions-v2.0.md, and config/scoring-weights.json. 44 dimensions across 7 clusters. Score levels describe the 0-4 scale per dimension. Tier 2 dimensions (4.16-4.27) use 0/1/2 scale.",
+  "$comment": "Dimension reference for front-end and agent consumption. Extracted from CLAUDE.md, docs/audit-dimensions-v2.0.md, and config/scoring-weights.json. 56 dimensions across 7 clusters. Score levels describe the 0-4 scale per dimension. Tier 2 dimensions (4.16-4.27) use 0/1/2 scale.",
   "version": "2.2",
   "dimensions": {
 

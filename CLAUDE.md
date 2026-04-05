@@ -381,7 +381,7 @@ ds-ai-poc/
 ├── data/                            # Static data for front-end and agent consumption
 │   └── dimension-reference.json     # All dimensions with score levels, keyed by ID
 ├── docs/                            # Reserved for GitHub Pages output (v1.3+)
-│   └── exploration-plan.md          # Full release plan
+│   └── release-plan.md              # Full release plan
 ├── CLAUDE.md                        # This file
 ├── CONTEXT.md                       # Strategic context and learnings
 ├── CHANGELOG.md                     # What changed and when
@@ -494,14 +494,14 @@ Update this section at the end of each release session.
 
 ## Release sequence (summary)
 
-Full plan in `docs/exploration-plan.md`.
+Full plan in `docs/release-plan.md`.
 
 - **1.3** -- Complete. Stable audit script. Ten dimensions. REST API primary source.
   Material UI 44.3/100 not ready. Four blockers identified.
 - **1.4** -- Scoring thresholds, phase readiness recommendation, eleven dimensions
   active.
 - **2.0** -- Code-side token diff (Figma vs repository). Documentation frame reader.
-  Dimension restructure to 7 clusters / 44 dimensions.
+  Dimension restructure to 7 clusters / 56 dimensions.
 - **2.1** -- Schema iteration (cluster-based, remediation section, severity_rank).
   Two-phase audit. Token reduction. Documentation hierarchy for Dimension 3.3.
   Validation run confirmed zero drift.

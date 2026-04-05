@@ -25,7 +25,7 @@ Schema iteration, two-phase audit, token reduction, documentation dimension upda
 - Phase 2 (targeted scoring): scores only dimensions with evidence. Skips entire
   clusters when no data. Single-component files skip statistical dimensions.
 - Prompt rewritten from v1.4 to v2.1: two-phase procedure, cluster-based dimension
-  references, expanded finding ID conventions for all 44 dimensions.
+  references, expanded finding ID conventions for all 56 dimensions.
 
 ### Token reduction (Workstream 3)
 
@@ -58,7 +58,7 @@ Schema iteration, two-phase audit, token reduction, documentation dimension upda
 
 ## [v2.0] -- 2026-03-31
 
-Audit restructured to 7 clusters / 44 dimensions. Code-side token diff and
+Audit restructured to 7 clusters / 56 dimensions. Code-side token diff and
 documentation frame reader added. Material UI 55.3/100 not ready, 10 blockers.
 
 ## [v1.4] -- 2026-03-30
@@ -142,7 +142,7 @@ Dimensions expanded from 10 to 11:
   client-specific prompt and config variants.
 - Target state defined: four-phase sequence (Audit, MVP, Beta, Stable). Phase 4 is
   the vision -- multiple agents active, designers define intent.
-- Release plan documented in docs/exploration-plan.md covering Releases 1.3 to 3.0+.
+- Release plan documented in docs/release-plan.md covering Releases 1.3 to 3.0+.
 - Test vehicle changed from Toimi to Material UI (Figma community file + GitHub repo)
   for Releases 1.3 through 2.1. Studio library follows in Release 2.1.
 

@@ -822,7 +822,7 @@ retain that prefix for continuity; new findings in Dimension 8 use `PRG-`.
 - **Patterns** are first-class audit targets alongside components.
 - **Cluster 4 renamed** from "Craft Baseline" to "Design Quality Baseline".
 - **Documentation meta-principles** added to CLAUDE.md.
-- **Finding ID conventions** expanded to cover all 44 dimensions.
+- **Finding ID conventions** expanded to cover all 56 dimensions.
 
 ### v1.4 (2026-03-30)
 

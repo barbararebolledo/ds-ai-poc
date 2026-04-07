@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "remediation-schema.json",
+  "title": "AI-Readiness Audit -- Remediation Plan v1.0",
+  "$comment": "Companion to audit-schema.json. Joined by audit_id. Sort order convention: priority_tier ascending, effort_estimate ascending (hours/days/weeks), severity_rank descending within the same tier and effort band.",
+
+  "type": "object",
+  "required": ["meta", "items"],
+  "additionalProperties": false,
+
+  "properties": {
+
+    "meta": {
+      "type": "object",
+      "required": ["audit_id", "system_name", "schema_version", "generated_at"],
+      "additionalProperties": false,
+      "properties": {
+        "audit_id": {
+          "type": "string",
+          "$comment": "Must match the audit_id in the companion audit JSON. Links the two files."
+        },
+        "system_name": {
+          "type": "string",
+          "$comment": "Human-readable name of the audited design system."
+        },
+        "schema_version": {
+          "type": "string",
+          "const": "1.0",
+          "$comment": "Remediation schema version. Independent from audit schema version."
+        },
+        "generated_at": {
+          "type": "string",
+          "format": "date-time",
+          "$comment": "ISO 8601 UTC datetime when this remediation file was generated."
+        }
+      }
+    },
+
+    "items": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/RemediationItem" },
+      "$comment": "Flat array of remediation items. Sorted by priority_tier ascending, effort_estimate ascending (hours/days/weeks), severity_rank descending within the same tier and effort band."
+    }
+
+  },
+
+  "$defs": {
+
+    "RemediationItem": {
+      "$comment": "A single remediation action. Carries all fields from audit-schema.json v2.2 RemediationItem plus priority_tier and remediation_type.",
+      "type": "object",
+      "required": ["id", "action", "affected_cluster", "affected_dimensions", "effort_estimate", "ownership", "priority_tier", "remediation_type"],
+      "additionalProperties": false,
+      "properties": {
+
+        "id": {
+          "type": "string",
+          "pattern": "^REM-[0-9]{3}$",
+          "$comment": "Stable unique identifier. Format: REM-NNN."
+        },
+
+        "action": {
+          "type": "string",
+          "$comment": "What to do. Actionable and specific."
+        },
+
+        "affected_cluster": {
+          "type": "string",
+          "$comment": "Cluster key this action primarily affects."
+        },
+
+        "affected_dimensions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "$comment": "Dimension keys this action would improve."
+        },
+
+        "effort_estimate": {
+          "type": "string",
+          "enum": ["hours", "days", "weeks"],
+          "$comment": "Order-of-magnitude effort. 'hours' = less than a day. 'days' = 1-5 days. 'weeks' = more than a week."
+        },
+
+        "ownership": {
+          "type": "string",
+          "enum": ["design", "engineering", "both"],
+          "$comment": "Who is responsible for this action."
+        },
+
+        "priority_tier": {
+          "type": "integer",
+          "enum": [1, 2, 3],
+          "$comment": "Tier 1: necessary for agent readability (token docs, component descriptions, co-location). Tier 2: high leverage, low effort (parity gap register, usage guidance, doc structure). Tier 3: important but high effort (empty states, responsive coverage, accessibility docs)."
+        },
+
+        "remediation_type": {
+          "type": "string",
+          "enum": ["relocate", "refactor", "rebuild"],
+          "$comment": "relocate: docs exist externally but not co-located or declared. refactor: component sound but docs missing/thin. rebuild: component structurally poor, must rebuild before documenting."
+        },
+
+        "value_framing": {
+          "type": "string",
+          "$comment": "Optional. Operational consequence of not fixing this item."
+        },
+
+        "impact_categories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["correction_cycles", "theme_rework", "parity_defects", "token_efficiency"]
+          },
+          "$comment": "Optional. Impact model categories this action affects."
+        },
+
+        "projected_score_improvement": {
+          "type": "string",
+          "$comment": "Optional. Expected impact on cluster or overall score."
+        },
+
+        "finding_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "$comment": "Optional. Finding IDs this action addresses."
+        }
+
+      }
+    }
+
+  }
+}

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft-07/schema",
   "$id": "editorial-schema.json",
   "title": "Audit Editorial Content v1.0",
-  "$comment": "Companion to audit-schema.json v2.2. Carries all client-facing prose: edited copy, value framing, cluster narratives, and report-level content. The front-end merges this with the data JSON at render time, preferring editorial content when present. All sections are optional; the front-end falls back to data JSON content when editorial content is absent.",
+  "$comment": "Prose overrides only. This schema carries human-written content that overrides generated text in the audit and remediation files. It does not carry remediation structure. Joined to audit and remediation files by audit_id. The front-end merges this with the data JSON at render time, preferring editorial content when present. All sections are optional; the front-end falls back to data JSON content when editorial content is absent.",
 
   "type": "object",
   "required": ["meta"],

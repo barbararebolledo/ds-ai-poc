@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
   "$id": "audit-schema.json",
-  "title": "AI-Readiness Audit v2.2",
-  "$comment": "v2.2: added system_name, audit_date, run_id to meta; added summary to findings; added id, value_framing, impact_categories to RemediationItem; added component_count to Summary; editorial JSON schema added as companion file. v2.1: schema aligned with v2.0 cluster-based output structure. Breaking change from v1.4 flat dimensions. New in v2.1: remediation section, severity_rank on findings, cluster_summary on clusters, recommendation mandatory on all findings. v1.4 schema preserved in git history (tag v2.0).",
+  "title": "AI-Readiness Audit v3.0",
+  "$comment": "v3.0: remediation block removed from audit file. Three-file output architecture: audit (immutable scores), remediation (prioritised plan, remediation-schema.json v1.0), editorial (prose overrides). Files joined by audit_id. v2.2: added system_name, audit_date, run_id to meta; added summary to findings; added id, value_framing, impact_categories to RemediationItem; added component_count to Summary; editorial JSON schema added as companion file. v2.1: schema aligned with v2.0 cluster-based output structure. Breaking change from v1.4 flat dimensions. New in v2.1: remediation section, severity_rank on findings, cluster_summary on clusters, recommendation mandatory on all findings. v1.4 schema preserved in git history (tag v2.0).",
 
   "type": "object",
   "required": ["meta", "summary", "clusters", "findings", "data_gaps", "config_ref"],
@@ -33,11 +33,6 @@
       "uniqueItems": true
     },
 
-    "remediation": {
-      "$comment": "New in v2.1. Prioritised remediation plan derived from findings. Three categories: quick wins (low effort, immediate improvement), foundational blockers (high effort, required for advancement), and post-migration improvements (deferred, nice-to-have). Each item references affected clusters and dimensions.",
-      "$ref": "#/$defs/Remediation"
-    },
-
     "data_gaps": {
       "$comment": "Explicit record of what could not be inspected. A consumer must not treat absence of findings as a clean result.",
       "type": "array",
@@ -66,7 +61,7 @@
 
         "schema_version": {
           "type": "string",
-          "const": "2.2",
+          "const": "3.0",
           "$comment": "Must match the title version. Allows consumers to assert schema compatibility before parsing."
         },
 
@@ -449,103 +444,6 @@
         "auto_fixable": {
           "type": "boolean",
           "$comment": "Optional. True if a script could apply the fix without human judgement."
-        }
-
-      }
-    },
-
-    "Remediation": {
-      "$comment": "New in v2.1. Prioritised remediation plan derived from findings. Consumers use this to build a roadmap.",
-      "type": "object",
-      "required": ["quick_wins", "foundational_blockers", "post_migration"],
-      "additionalProperties": false,
-      "properties": {
-
-        "quick_wins": {
-          "type": "array",
-          "items": { "$ref": "#/$defs/RemediationItem" },
-          "$comment": "Low effort, immediate score improvement. Typically days or hours."
-        },
-
-        "foundational_blockers": {
-          "type": "array",
-          "items": { "$ref": "#/$defs/RemediationItem" },
-          "$comment": "High effort, required for advancement. These must be resolved before the system can pass."
-        },
-
-        "post_migration": {
-          "type": "array",
-          "items": { "$ref": "#/$defs/RemediationItem" },
-          "$comment": "Deferred improvements. Nice-to-have after the system reaches conditional_pass or pass."
-        }
-
-      }
-    },
-
-    "RemediationItem": {
-      "$comment": "New in v2.1. A single remediation action with effort estimate and projected impact. v2.2: added id (required), value_framing, impact_categories.",
-      "type": "object",
-      "required": ["id", "action", "affected_cluster", "affected_dimensions", "effort_estimate", "ownership"],
-      "additionalProperties": false,
-      "properties": {
-
-        "id": {
-          "type": "string",
-          "pattern": "^REM-[0-9]{3}$",
-          "$comment": "New in v2.2. Stable unique identifier for this remediation item. Format: REM-NNN. Required for editorial JSON cross-referencing."
-        },
-
-        "action": {
-          "type": "string",
-          "$comment": "What to do. Actionable and specific. References finding IDs where relevant."
-        },
-
-        "affected_cluster": {
-          "type": "string",
-          "$comment": "Cluster key this action primarily affects, e.g. '1_token_and_variable_system'."
-        },
-
-        "affected_dimensions": {
-          "type": "array",
-          "items": { "type": "string" },
-          "$comment": "Dimension keys this action would improve."
-        },
-
-        "effort_estimate": {
-          "type": "string",
-          "enum": ["hours", "days", "weeks"],
-          "$comment": "Order-of-magnitude effort. 'hours' = less than a day. 'days' = 1-5 days. 'weeks' = more than a week."
-        },
-
-        "ownership": {
-          "type": "string",
-          "enum": ["design", "engineering", "both"],
-          "$comment": "Who is responsible for this action."
-        },
-
-        "value_framing": {
-          "type": "string",
-          "$comment": "New in v2.2. One to two sentences explaining the operational consequence of not fixing this item. Editorial content. Can be overridden by the editorial JSON."
-        },
-
-        "impact_categories": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": ["correction_cycles", "theme_rework", "parity_defects", "token_efficiency"]
-          },
-          "$comment": "New in v2.2. Which impact model categories this remediation action affects. Used by the front-end impact calculator to connect remediation items to projected cost."
-        },
-
-        "projected_score_improvement": {
-          "type": "string",
-          "$comment": "Optional. Expected impact on cluster or overall score, e.g. 'Cluster 1 score from 54 to 70' or 'Overall from 55 to 62'."
-        },
-
-        "finding_ids": {
-          "type": "array",
-          "items": { "type": "string" },
-          "$comment": "Optional. Finding IDs that this remediation action addresses."
         }
 
       }

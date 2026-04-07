@@ -1,8 +1,8 @@
-# AI-Readiness Audit Prompt v2.2
+# AI-Readiness Audit Prompt v3.0
 
-Version: 2.2
-Date: 2026-04-06
-Schema: `audit/schema/audit-schema.json`
+Version: 3.0
+Date: 2026-04-07
+Schema: `audit/schema/audit-schema.json` (v3.0), `audit/schema/remediation-schema.json` (v1.0)
 Weights: `config/scoring-weights.json`
 
 ---
@@ -28,7 +28,9 @@ Before running the audit, you must have:
 Read these files first, in this order:
 1. `CLAUDE.md` — architectural rules, dimension definitions, intent definition.
 2. `config/scoring-weights.json` — weights, sub-checks, thresholds, methodology.
-3. `audit/schema/audit-schema.json` — output format.
+3. `audit/schema/audit-schema.json` — audit output format (v3.0, no remediation block).
+4. `audit/schema/remediation-schema.json` — remediation output format (v1.0, flat array).
+5. `decisions/009-remediation-framework.md` — remediation type and priority tier definitions.
 
 ---
 
@@ -272,7 +274,8 @@ scores, normalised to 0-100 (average x 25).
 overall_score = weighted average of cluster scores
 ```
 
-Read weights from `config/scoring-weights.json`.
+Read weights from `config/scoring-weights.json`. Apply the formula:
+`sum of (cluster_score x cluster_weight)`. Do not use an unweighted average.
 
 **Step 2.6 -- Determine phase readiness**
 
@@ -290,15 +293,24 @@ gate always wins.
 
 **Step 2.7 -- Build remediation plan**
 
-Derive the remediation section from findings. Categorise each remediation item:
+The remediation plan is a separate output file conforming to
+`audit/schema/remediation-schema.json`. It is not part of the audit JSON.
 
-- **Quick wins:** effort_estimate = hours, projected score improvement is
-  immediate. Typically: adding descriptions, fixing naming, documenting gaps.
-- **Foundational blockers:** effort_estimate = days or weeks, required for
-  phase advancement. Typically: building token layers, restructuring
-  architecture, writing intent documentation.
-- **Post-migration:** deferred improvements that do not block advancement.
-  Typically: migrating legacy styles, adding Tier 2 craft patterns.
+Derive one remediation item per significant finding cluster. For each item:
+
+**Assign `remediation_type`** based on the combination of cluster 2 and cluster 3 scores:
+- `relocate` -- documentation exists externally (docs site, code comments) but is not declared or linked from the Figma component. Fix is adding links or declaring the path in CLAUDE.md. Lowest effort.
+- `refactor` -- component structure is sound (cluster 2 score >= 2) but documentation is missing or thin (cluster 3 score <= 2). Fix is writing and structuring documentation on a solid foundation.
+- `rebuild` -- component structure is poor (cluster 2 score <= 1) or token architecture is broken (cluster 1 score <= 1). Documenting it would be documenting something broken. Fix requires structural work before documentation work. Highest effort.
+
+**Assign `priority_tier`** based on what the finding blocks:
+- `1` -- Necessary for agent readability. Without this, the agent cannot read the system at all. Covers: component descriptions (3.1), token documentation (1.6), co-location mechanism (declared path from component to docs).
+- `2` -- High leverage, low effort. Improves the quality of what the agent reads. Within the design system team's control. Covers: parity gap register (6.6), structured usage guidance (3.4), documentation structure (3.2).
+- `3` -- Important but high effort. Design quality improvements requiring cross-functional capacity. Covers: empty state patterns (4.12), responsive coverage gaps, accessibility documentation.
+
+**Sort order in the remediation file:** `priority_tier` ascending (1 first),
+then `effort_estimate` ascending (hours → days → weeks), then `severity_rank`
+descending within the same tier and effort band.
 
 Every finding with severity blocker or warning must appear in at least one
 remediation item. Findings with severity note may be grouped.
@@ -611,9 +623,10 @@ MCP for spot-checking touch target sizes on sampled components.
 4. Apply severity thresholds to determine dimension severity (if not already
    forced to blocker by override rule).
 5. Calculate cluster scores from scored dimensions (null dimensions excluded).
-6. Calculate overall score as weighted average of cluster scores.
+6. Calculate overall score as weighted average of cluster scores using the
+   formula: `sum of (cluster_score x cluster_weight)`. Not an unweighted average.
 7. Determine phase readiness from thresholds in the scoring weights config.
-8. Build remediation plan from findings.
+8. Build remediation plan as a separate file per `audit/schema/remediation-schema.json`.
 
 **Important:** v1.4 and v2.1 scores are not directly comparable. v1.4 used
 0-100 dimension scores derived from sub-checks x 25. v2.1 uses 0-4 raw
@@ -624,8 +637,8 @@ included, the narrative must note this methodology change.
 
 ## Phase readiness recommendation (required output)
 
-The audit JSON must include `phase_readiness_detail` in the summary block
-and a `remediation` section at the top level. Both are required in v2.1.
+The audit JSON must include `phase_readiness_detail` in the summary block.
+The remediation plan is a separate file -- see Output requirements below.
 
 Populate the following fields:
 
@@ -657,29 +670,35 @@ root entries explaining when to use each component" is a condition.
 
 ## Output requirements
 
-### JSON output
+### Three-file output
 
-Produce a single JSON file conforming to `audit/schema/audit-schema.json`.
+Each audit run produces two files. A third (editorial) is human-authored separately.
+
+**File 1: Audit JSON**
+
+Path: `audit/[system]/[version]/[system]-audit-[version].json`
+Schema: `audit/schema/audit-schema.json` v3.0
+Contains: scores, clusters, dimensions, findings, data gaps, meta.
+Does not contain: remediation items.
 
 Required fields in `meta`:
-- `schema_version`: "2.2"
+- `schema_version`: "3.0"
 - `system_name`: human-readable name of the design system (e.g. "Material UI")
 - `audit_date`: ISO 8601 date (YYYY-MM-DD) of the audit run
 - `run_id`: UUID v4 for deduplication and cross-referencing
-- `audit_id`: format `{target}-v2.2-{YYYY-MM-DD}`
+- `audit_id`: format `{target}-v3.0-{YYYY-MM-DD}`
 - `timestamp`: ISO 8601 UTC, when the audit completed
 - `auditor`: "Claude Code via Figma REST API + MCP"
-- `prompt_version`: "2.2"
+- `prompt_version`: "3.0"
 - `git_tag`: the release tag that produced this output
 - `target_system`: name of the design system being audited
 - `figma_files`: keyed by library role, with file_key and file_name
 - `evidence_sources`: array of data sources used
 
 Required fields in `summary`:
-- `overall_score`: weighted average, 0-100
+- `overall_score`: weighted average using formula `sum of (cluster_score x cluster_weight)`, 0-100
 - `phase_readiness`: derived from score and blocker count per thresholds
-- `phase_readiness_detail`: blocking dimensions, warning dimensions, conditions
-  for advancement
+- `phase_readiness_detail`: blocking dimensions, warning dimensions, conditions for advancement
 - `top_blockers`: up to 3 finding IDs with severity=blocker
 - `blocker_count`: total dimension-level blockers
 - `dimension_scores`: flat {dimension_key: score} map (score or null)
@@ -691,7 +710,7 @@ Required fields in `summary`:
 
 Required fields in each ClusterEntry:
 - `cluster_name`: human-readable name
-- `cluster_summary`: one-sentence headline (new in v2.1)
+- `cluster_summary`: one-sentence headline
 - `cluster_score`: 0-100 from scored dimensions
 - `dimensions`: object of DimensionEntry
 
@@ -701,12 +720,16 @@ Required fields in each DimensionEntry:
 - `severity`: derived from thresholds and override rule, or null
 - `narrative`: prose summary
 - `evidence_sources`: array of data sources
-- `finding_ids`: array of finding IDs
+- `finding_ids`: array of finding IDs. Use full prefixed keys matching the
+  dimension keys in the clusters object (e.g. `1.1_token_implementation`,
+  not `token_implementation`).
 
 Every finding must have:
 - A stable `id` following the pattern `{DIMENSION_ABBREV}-{NNN}`
-- A `severity_rank` integer: 0=pass, 1=note, 2=warning, 3=blocker (new in v2.1)
-- A `recommendation` -- mandatory, no finding without a recommendation (new in v2.1)
+- A `dimension` field using the full prefixed key (e.g. `1.1_token_implementation`)
+- A `severity_rank` integer: 0=pass, 1=note, 2=warning, 3=blocker
+- A `summary` field: one-line overview for list views
+- A `recommendation` -- mandatory, no finding without a recommendation
 
 Every data gap must have:
 - An `id` following the pattern `GAP-{NNN}`
@@ -714,26 +737,41 @@ Every data gap must have:
   not_auditable, page_size
 - An `impact` statement explaining how the gap affects scoring
 
-Required `remediation` section (new in v2.1):
-- `quick_wins`: array of RemediationItem
-- `foundational_blockers`: array of RemediationItem
-- `post_migration`: array of RemediationItem
+**File 2: Remediation JSON**
 
-Each RemediationItem must have: `id` (string, required, pattern `REM-001`,
-assigned sequentially), `action`, `affected_cluster`, `affected_dimensions`,
-`effort_estimate` (hours/days/weeks), `ownership` (design/engineering/both).
-Optional: `value_framing` (string, one to two sentences explaining the
-operational consequence of not fixing this item — write from the perspective of
-what happens to the team if this is not addressed), `impact_categories` (array
-of enum: `correction_cycles`, `theme_rework`, `parity_defects`,
-`token_efficiency` — which categories this action affects),
-`projected_score_improvement`, `finding_ids`.
+Path: `audit/[system]/[version]/[system]-remediation-[version].json`
+Schema: `audit/schema/remediation-schema.json` v1.0
+Contains: flat array of RemediationItem, sorted by priority_tier ascending,
+effort_estimate ascending, severity_rank descending.
+
+Required fields in `meta`:
+- `audit_id`: must match the audit JSON audit_id exactly
+- `system_name`: must match the audit JSON system_name
+- `schema_version`: "1.0"
+- `generated_at`: ISO 8601 UTC
+
+Each RemediationItem must have:
+- `id` (string, required, pattern `REM-NNN`, sequential)
+- `action` (string, required)
+- `affected_cluster` (string, required)
+- `affected_dimensions` (array of string, required)
+- `effort_estimate` (string, required: hours/days/weeks)
+- `ownership` (string, required: design/engineering/both)
+- `priority_tier` (integer, required: 1/2/3)
+- `remediation_type` (string, required: relocate/refactor/rebuild)
+
+Optional fields:
+- `value_framing` (string): one to two sentences on the operational consequence
+  of not fixing this item
+- `impact_categories` (array of enum: correction_cycles/theme_rework/
+  parity_defects/token_efficiency)
+- `projected_score_improvement` (string)
+- `finding_ids` (array of string)
 
 ### Markdown report
 
-After producing the JSON, generate a Markdown report derived from it. The
-Markdown is a rendering of the JSON -- never the other way around. The JSON is
-the source of truth.
+After producing both JSON files, generate a Markdown report derived from them.
+The Markdown is a rendering of the JSON -- never the other way around.
 
 The Markdown report should include:
 - Executive summary with overall score and phase readiness
@@ -741,12 +779,12 @@ The Markdown report should include:
   for advancement
 - Cluster-by-cluster breakdown with cluster summary, score, and dimensions
 - Each dimension: score, severity, narrative, finding IDs
-- Remediation roadmap: quick wins, foundational blockers, post-migration
+- Remediation roadmap sorted by priority tier (tier 1 first, then tier 2, then tier 3)
 - Top blockers section
 - Data gaps section
 - Finding detail table
 
-Write the JSON first. Then render the Markdown from it.
+Write both JSON files first. Then render the Markdown from them.
 
 ---
 
@@ -806,10 +844,38 @@ retain that prefix for continuity; new findings in Dimension 8 use `PRG-`.
 - Sub-check scores must be integers 0-4. No fractional scores.
 - The override rule (any sub-check at 0 forces blocker) is mandatory and cannot
   be disabled by client configs.
+- Overall score must use the weighted formula: `sum of (cluster_score x cluster_weight)`.
+  Not an unweighted average.
+- Finding dimension references must use full prefixed keys (e.g. `1.1_token_implementation`).
+- Tier 2 dimensions (4.16-4.27) scoring 1/2: severity = warning, not note.
 
 ---
 
 ## Changelog
+
+### v3.0 (2026-04-07)
+
+- **Three-file output architecture.** Audit JSON and remediation JSON are now
+  separate files. The audit JSON (schema v3.0) contains scores, findings, and
+  meta. The remediation JSON (remediation-schema.json v1.0) contains the flat
+  remediation plan. The editorial JSON is human-authored separately.
+- **Remediation structure.** Three-bucket system (quick_wins, foundational_blockers,
+  post_migration) retired. Replaced by a flat array of RemediationItem with
+  `priority_tier` (integer 1/2/3) and `remediation_type` (relocate/refactor/rebuild)
+  as required fields. Sort order: priority_tier ascending, effort_estimate ascending,
+  severity_rank descending.
+- **Co-location principle.** Dimension 3.1 scores whether intent documentation is
+  declared and accessible from the component within the agent's toolchain. External
+  documentation with no declared path scores lower -- not because it is external,
+  but because it is undeclared.
+- **Weighted score formula** made explicit. Overall score = sum of
+  (cluster_score x cluster_weight). Unweighted average is incorrect.
+- **Finding dimension ID format** made explicit. Must use full prefixed keys
+  matching the clusters object (e.g. `1.1_token_implementation`).
+- **Tier 2 severity** clarified: score 1/2 = warning, not note.
+- **schema_version** bumped to "3.0". `prompt_version` bumped to "3.0".
+- **Inputs** updated: now reads remediation-schema.json and
+  decisions/009-remediation-framework.md at session start.
 
 ### v2.2 (2026-04-06)
 

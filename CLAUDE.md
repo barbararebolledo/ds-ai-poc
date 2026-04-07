@@ -141,13 +141,14 @@ Note: community Figma files must be published to a team library before
   tokens. Semantic tokens alias primitives. Never alias primitives directly from
   component tokens.
 
-- **Two-JSON architecture.** The audit produces a data JSON (source of truth for
-  scores, findings, structural facts). A companion editorial JSON carries all
-  client-facing prose: edited copy, value framing, cluster narratives, and
-  report-level content. The editorial JSON keys into the data JSON by cluster key,
-  dimension ID, finding ID, and remediation item ID. The front-end merges them at
-  render time, preferring editorial content when present. The editorial JSON schema
-  is at `audit/schema/editorial-schema.json`.
+- **Three-file architecture.** Each audit run produces three files joined by
+  `audit_id`: audit JSON (immutable scores, findings, structural facts),
+  remediation JSON (living remediation plan, editable between runs), editorial
+  JSON (human-written prose overrides). The front-end merges all three at render
+  time, preferring editorial content when present. Schemas:
+  `audit/schema/audit-schema.json` (v3.0),
+  `audit/schema/remediation-schema.json` (v1.0),
+  `audit/schema/editorial-schema.json` (v1.0).
 
 ---
 
@@ -414,8 +415,9 @@ document, and the scoring weights config. They are not hand-authored.
 
 ## Front-end information architecture
 
-The front-end consumes the audit JSON (v2.2 schema) and the dimension reference
-directly. No markdown rendering. JSON is the source of truth.
+The front-end consumes the audit JSON (v3.0 schema), remediation JSON (v1.0),
+and the dimension reference directly. No markdown rendering. JSON is the source
+of truth.
 
 **Primary views:**
 
@@ -429,8 +431,9 @@ directly. No markdown rendering. JSON is the source of truth.
 4. **Finding list** -- All findings sortable by severity_rank, filterable by
    dimension and cluster. Uses `findings[]` with `summary` for list view and
    `description` for detail view.
-5. **Remediation roadmap** -- Three-column layout (quick wins, foundational blockers,
-   post-migration). Uses `remediation`.
+5. **Remediation roadmap** -- Priority-sorted list from remediation JSON. Grouped by
+   `priority_tier`, sorted by `effort_estimate` and `severity_rank`. Uses
+   `[system]-remediation.json`.
 6. **Comparison** -- Score delta between two audit runs. Uses `version_delta`.
 
 **Benchmark manifest approach:** When multiple audit outputs exist (different
@@ -496,19 +499,18 @@ Update this section at the end of each release session.
 
 | Field | Value |
 |---|---|
-| Current release | 2.2 |
+| Current release | 3.0 (in progress) |
 | Active test vehicle | Material UI -- Figma community file (published to team) + GitHub repo |
 | Last prompt version | v2.2 (prompts/audit-prompt.md) |
-| Schema version | v2.2 (audit/schema/audit-schema.json) + editorial v1.0 (audit/schema/editorial-schema.json) |
+| Schema version | v3.0 (audit/schema/audit-schema.json) + remediation v1.0 (audit/schema/remediation-schema.json) + editorial v1.0 (audit/schema/editorial-schema.json) |
 | Editorial JSON | v1.0 schema defined, no editorial file populated yet |
 | Scoring weights | v2.1 (config/scoring-weights.json) -- cluster-based, 7 clusters sum to 1.00 |
-| Last audit run | Material UI v2.2 -- 55.3/100 not ready, 10 blockers (zero drift from v2.1) |
+| Last audit run | Material UI v2.2 -- 55.3/100 not ready, 10 blockers. Fresh v3.0 re-run pending. |
 | Benchmark audits | MUI v2.2 (55.3/100), Carbon v2.2 (62.5/100) |
 | Dimensions | 7 clusters / 56 dimensions (38 scored, 9 code-only null in MUI audit) |
 | Dimension reference | data/dimension-reference.json -- all 56 dimensions with score levels |
-| Client status | Access pending -- adaptation sprint is Release 3.0 |
-| Release 2.1 | Complete -- decision record 006, validation run confirmed zero drift |
-| Release 2.2 | Schema pre-handoff for front-end build. New meta fields, finding summaries, dimension reference extracted. |
+| Client status | Access pending -- adaptation sprint is Release 4.0 |
+| Release 2.2 | Complete -- schema pre-handoff, front-end build, editorial schema. |
 
 ---
 
@@ -525,15 +527,12 @@ Full plan in `docs/release-plan.md`.
 - **2.1** -- Schema iteration (cluster-based, remediation section, severity_rank).
   Two-phase audit. Token reduction. Documentation hierarchy for Dimension 3.3.
   Validation run confirmed zero drift.
-- **2.2-schema** -- Front-end pre-handoff. Schema v2.2: system_name, audit_date,
-  run_id in meta. Finding summary field. Dimension reference extracted to
-  data/dimension-reference.json. MUI v2.1 audit backfilled.
-- **2.2** -- Front-end build (Konsta) + knowledge layer. React app consuming
-  audit JSON. Cluster overview, dimension drill-down, finding list, comparison.
-- **2.3** -- Studio or client library stress test.
-- **2.4** -- Methodology refinement.
-- **2.5** -- Repeatability and baseline diff mode.
-- **3.0+** -- Client application sprint. Agent wrapper decision point.
+- **2.2** -- Complete. Front-end pre-handoff. Schema v2.2: system_name, audit_date,
+  run_id in meta. Finding summary field. Dimension reference extracted.
+  Editorial JSON schema. Front-end build + knowledge layer.
+- **3.0** (in progress) -- Three-file output architecture. Schema v3.0. Remediation
+  framework. Working pilot target.
+- **4.0** -- First client application (Nordea). Adaptation sprint.
 
 ---
 

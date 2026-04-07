@@ -172,3 +172,17 @@ workflow). A compile script extracts it to markdown with sections keyed by ID. E
 edits the markdown. The script compiles it back to JSON. The front-end consumes the
 merged result. The glossary and workflow documentation for Eeva are prerequisites
 before she starts editing.
+
+## Session update -- April 2026 (Release 3.0, remediation framework)
+
+### Three-file output architecture
+Audit output split into three files per run joined by audit_id: [system]-audit.json (immutable, accumulates over time), [system]-remediation.json (living plan, editable between runs), [system]-editorial.json (human prose overrides). This architecture directly supports the recurring QA agent target state: the agent writes audit files, diffs them, and proposes remediation updates for human review.
+
+### Remediation framework formalised
+Three remediation types: relocate (docs exist but undeclared), refactor (structure sound, docs missing), rebuild (structure poor, must fix before documenting). Three priority tiers: 1 = necessary for agent readability, 2 = high leverage low effort, 3 = important but high effort. Sort order within remediation file: priority_tier ascending, effort_estimate ascending, severity_rank descending.
+
+### Co-location principle
+Intent documentation must be declared and accessible from the component within the agent's toolchain. Two valid routes score equally: native Figma component description + link field, or in-file documentation pages declared in CLAUDE.md. External documentation with no declared path scores lower on 3.1 -- not because it is external, but because it is undeclared. Client narrative: "The documentation exists. It is just in the wrong place."
+
+### Release milestones restructured
+3.0 = working pilot (schema finalised, front-end built, tool works end-to-end). 4.0 = first client application (Nordea, adaptation sprint). Releases 2.3--2.5 and the old 3.0 collapsed into Release 3.0.

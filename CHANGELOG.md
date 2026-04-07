@@ -1,5 +1,38 @@
 # Changelog
 
+## [v3.0] -- 2026-04-07
+
+Three-file output architecture. Remediation framework formalised. Breaking schema change from v2.2.
+
+### Architecture
+- Audit output split into three files per run: [system]-audit.json (immutable scores), [system]-remediation.json (living remediation plan), [system]-editorial.json (prose overrides). Joined by audit_id.
+- audit-schema.json bumped to v3.0. Remediation block removed entirely.
+- remediation-schema.json v1.0 introduced at audit/schema/. Flat array of RemediationItem with priority_tier and remediation_type as required fields.
+- editorial-schema.json scope clarified: prose overrides only.
+
+### Remediation framework
+- Three-bucket system (quick_wins, foundational_blockers, post_migration) retired.
+- priority_tier (integer 1/2/3): 1 = necessary for agent readability, 2 = high leverage low effort, 3 = important but high effort.
+- remediation_type (enum: relocate/refactor/rebuild): relocate = docs exist but not co-located, refactor = structure sound but docs missing, rebuild = structure poor, must fix before documenting.
+- Sort order: priority_tier ascending, effort_estimate ascending, severity_rank descending.
+- Co-location principle formalised: intent documentation must be declared and accessible from the component within the agent's toolchain. Two valid routes score equally.
+- Usage guidance scoring confirmed: Carbon/MUI gap on 3.4 is a real quality difference, not a format artefact.
+- Code-side rebuild threshold documented as draft heuristic pending developer validation.
+
+### Release milestones restructured
+- Releases 1.x--2.x: complete.
+- Release 3.0: working pilot. Schema finalised, front-end built, tool works end-to-end.
+- Release 4.0: first client application (Nordea). Adaptation sprint.
+
+### Files changed
+- audit/schema/audit-schema.json -- v3.0, remediation block removed
+- audit/schema/remediation-schema.json -- new file, v1.0
+- audit/schema/editorial-schema.json -- scope comment updated
+- audit/material-ui/v2.2/mui-remediation-v2.2.json -- new file, extracted from audit JSON
+- audit/carbon/v2.2/carbon-remediation-v2.2.json -- new file, extracted from audit JSON
+- decisions/009-remediation-framework.md -- new ADR
+- _index.md -- updated
+
 ## [v2.1] -- 2026-03-31
 
 Schema iteration, two-phase audit, token reduction, documentation dimension update.

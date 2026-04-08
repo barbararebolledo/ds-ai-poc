@@ -499,18 +499,18 @@ Update this section at the end of each release session.
 
 | Field | Value |
 |---|---|
-| Current release | 3.0 (in progress) |
-| Active test vehicle | Material UI -- Figma community file (published to team) + GitHub repo |
-| Last prompt version | v2.2 (prompts/audit-prompt.md) |
+| Current release | 3.0 (complete) |
+| Active test vehicle | Material UI + Carbon Design System -- both with Figma + GitHub + docs site evidence |
+| Last prompt version | v3.0 (prompts/audit-prompt.md) |
 | Schema version | v3.0 (audit/schema/audit-schema.json) + remediation v1.0 (audit/schema/remediation-schema.json) + editorial v1.0 (audit/schema/editorial-schema.json) |
 | Editorial JSON | v1.0 schema defined, no editorial file populated yet |
 | Scoring weights | v2.1 (config/scoring-weights.json) -- cluster-based, 7 clusters sum to 1.00 |
-| Last audit run | Material UI v2.2 -- 55.3/100 not ready, 10 blockers. Fresh v3.0 re-run pending. |
-| Benchmark audits | MUI v2.2 (55.3/100), Carbon v2.2 (62.5/100) |
-| Dimensions | 7 clusters / 56 dimensions (38 scored, 9 code-only null in MUI audit) |
+| Last audit run | MUI v3.0 (63.6/100, not_ready, 4 blockers), Carbon v3.0 (62.5/100, not_ready, 6 blockers) |
+| Benchmark audits | MUI v3.0 (63.6/100), Carbon v3.0 (62.5/100) |
+| Dimensions | 7 clusters / 56 dimensions (56/56 scored on Carbon, 56/56 on MUI) |
 | Dimension reference | data/dimension-reference.json -- all 56 dimensions with score levels |
 | Client status | Access pending -- adaptation sprint is Release 4.0 |
-| Release 2.2 | Complete -- schema pre-handoff, front-end build, editorial schema. |
+| Release 3.0 | Complete -- three-file output, remediation framework, Tier 2 narrative evidence standard, benchmark runs for MUI and Carbon. |
 
 ---
 
@@ -530,8 +530,13 @@ Full plan in `docs/release-plan.md`.
 - **2.2** -- Complete. Front-end pre-handoff. Schema v2.2: system_name, audit_date,
   run_id in meta. Finding summary field. Dimension reference extracted.
   Editorial JSON schema. Front-end build + knowledge layer.
-- **3.0** (in progress) -- Three-file output architecture. Schema v3.0. Remediation
-  framework. Working pilot target.
+- **3.0** -- Complete. Three-file output architecture. Schema v3.0. Remediation
+  framework (priority_tier, remediation_type, value_framing). Tier 2 narrative
+  evidence standard. Benchmark runs: MUI 63.6/100 (4 blockers), Carbon 62.5/100
+  (6 blockers). Co-location principle applied to 3.1 and 3.5; extension to 3.4
+  deferred to Thinking Track.
+- **3.1** -- Next. Rerun benchmarks with Tier 2 narrative evidence standard.
+  Thinking Track decision on co-location principle scope.
 - **4.0** -- First client application (Nordea). Adaptation sprint.
 
 ---

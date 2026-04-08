@@ -243,6 +243,13 @@ For each dimension not skipped in the discovery summary, score on the 0-4 scale:
 Tier 2 dimensions (4.16-4.27) use a simplified scale: 0 = not addressed,
 1 = partially addressed, 2 = systematically addressed.
 
+Tier 2 narratives must meet the same evidence standard as Tier 1. For each
+Tier 2 dimension, the narrative must: (a) name the specific components,
+patterns, or tokens inspected as evidence, (b) state what exists and what is
+missing, and (c) for a score of 1 ("partially addressed"), describe what
+"systematically addressed" would require to reach a score of 2. A narrative
+that says only "partially addressed" without naming evidence is insufficient.
+
 For dimensions with sub-checks, record each sub-check score in the
 `sub_check_scores` field.
 
@@ -873,6 +880,10 @@ retain that prefix for continuity; new findings in Dimension 8 use `PRG-`.
 - **Finding dimension ID format** made explicit. Must use full prefixed keys
   matching the clusters object (e.g. `1.1_token_implementation`).
 - **Tier 2 severity** clarified: score 1/2 = warning, not note.
+- **Tier 2 narrative evidence standard.** Tier 2 narratives must name specific
+  components or patterns inspected, state what exists and what is missing, and
+  describe what "systematically addressed" would require. One-line summaries
+  without named evidence are insufficient.
 - **schema_version** bumped to "3.0". `prompt_version` bumped to "3.0".
 - **Inputs** updated: now reads remediation-schema.json and
   decisions/009-remediation-framework.md at session start.

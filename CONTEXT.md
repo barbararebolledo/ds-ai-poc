@@ -186,3 +186,21 @@ Intent documentation must be declared and accessible from the component within t
 
 ### Release milestones restructured
 3.0 = working pilot (schema finalised, front-end built, tool works end-to-end). 4.0 = first client application (Nordea, adaptation sprint). Releases 2.3--2.5 and the old 3.0 collapsed into Release 3.0.
+
+## Session update -- April 2026 (Release 3.1)
+
+### Editorial editing workflow
+
+The editorial JSON is now pre-populated by the audit engine on every run. It is no longer a blank file requiring human authoring from scratch. The audit engine writes executive summary, cluster narratives, dimension narratives, blocker and warning finding prose, and remediation value_framing as a draft. A human editor (Eeva) reviews and rewrites fields that need client-facing polish.
+
+The editing workflow is Markdown-based so non-technical collaborators can edit without touching JSON directly. `scripts/render-editorial.mjs` reads the editorial JSON and generates an editable Markdown template with one labelled block per field. `scripts/compile-editorial.mjs` reads the edited Markdown and writes back to the editorial JSON. The front-end merge logic is unchanged: editorial content takes precedence over audit content when present.
+
+The read-only Markdown report produced by earlier prompt versions has been retired. The editable Markdown template replaces it.
+
+### Cluster 3 renamed
+
+Cluster 3 is now Documentation Readiness (previously Documentation and Intent). Four dimensions renamed per ADR 010: 3.1 Functional Intent Coverage, 3.2 Documentation Indexing, 3.4 Usage Guidance Structure, 3.5 In-File Documentation Structure. Scoring criteria and thresholds unchanged. Finding ID abbreviations stable.
+
+### Benchmark scores confirmed at v3.1
+
+MUI: 63.6/100, not_ready, 4 blockers. Carbon: 62.5/100, not_ready, 6 blockers. Scores match v3.0 exactly, confirming that the naming changes introduced no scoring drift.

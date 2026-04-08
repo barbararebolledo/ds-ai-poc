@@ -76,7 +76,7 @@
     },
 
     "dimensions": {
-      "$comment": "Optional. Keyed by dimension ID (e.g. '3.1_component_description_coverage'). Overrides dimension-level prose in the data JSON.",
+      "$comment": "Optional. Keyed by dimension ID (e.g. '3.1_functional_intent_coverage'). Overrides dimension-level prose in the data JSON.",
       "type": "object",
       "additionalProperties": {
         "type": "object",

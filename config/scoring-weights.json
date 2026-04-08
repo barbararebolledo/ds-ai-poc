@@ -104,15 +104,15 @@
       }
     },
 
-    "3_documentation_and_intent": {
+    "3_documentation_readiness": {
       "weight": 0.25,
-      "$comment": "Tied highest cluster weight with tokens. Whether the system can explain itself to an agent. MUI v2.0 scored 16.7 here -- the worst cluster.",
+      "$comment": "Tied highest cluster weight with tokens. Whether the system can explain itself to an agent. MUI v2.0 scored 16.7 here -- the worst cluster. Renamed from 'documentation_and_intent' in ADR 010.",
       "dimensions": {
-        "3.1_component_description_coverage": {
+        "3.1_functional_intent_coverage": {
           "weight": 0.25,
           "evidence": "Figma + Code"
         },
-        "3.2_documentation_structure_machine_readability": {
+        "3.2_documentation_indexing": {
           "weight": 0.15,
           "evidence": "Code"
         },
@@ -121,11 +121,11 @@
           "evidence": "Figma + Code",
           "$comment": "Highest weight in cluster. Scored against six-level documentation hierarchy."
         },
-        "3.4_usage_guidance_formalisation": {
+        "3.4_usage_guidance_structure": {
           "weight": 0.15,
           "evidence": "Code"
         },
-        "3.5_documentation_frame_metadata": {
+        "3.5_in_file_documentation_structure": {
           "weight": 0.15,
           "evidence": "Figma"
         }

@@ -1,6 +1,6 @@
 {
   "$comment": "Dimension reference for front-end and agent consumption. Extracted from CLAUDE.md, docs/audit-dimensions-v2.0.md, and config/scoring-weights.json. 56 dimensions across 7 clusters. Score levels describe the 0-4 scale per dimension. Tier 2 dimensions (4.16-4.27) use 0/1/2 scale.",
-  "version": "2.2",
+  "version": "2.3",
   "dimensions": {
 
     "0.1_platform_architecture_clarity": {
@@ -157,10 +157,10 @@
       }
     },
 
-    "3.1_component_description_coverage": {
-      "name": "Component Description Coverage",
-      "cluster": "3_documentation_and_intent",
-      "description": "Do components have descriptions? Of those with descriptions, what percentage carry functional intent rather than visual description or implementation detail?",
+    "3.1_functional_intent_coverage": {
+      "name": "Functional Intent Coverage",
+      "cluster": "3_documentation_readiness",
+      "description": "Do components have descriptions that carry functional intent rather than visual description or implementation detail? Scores whether intent is present, not whether a description field exists.",
       "evidence_sources": ["Figma", "Code"],
       "score_levels": {
         "0": "No descriptions with functional intent. Descriptions absent or are code snippets / visual descriptions only.",
@@ -171,10 +171,10 @@
       }
     },
 
-    "3.2_documentation_structure_machine_readability": {
-      "name": "Documentation Structure and Machine-Readability",
-      "cluster": "3_documentation_and_intent",
-      "description": "Is component documentation structured (frontmatter, typed fields, consistent schemas) or primarily narrative prose?",
+    "3.2_documentation_indexing": {
+      "name": "Documentation Indexing",
+      "cluster": "3_documentation_readiness",
+      "description": "Is component documentation indexed via schemas, frontmatter, or queryable structure that lets an agent look things up rather than reading everything linearly?",
       "evidence_sources": ["Code"],
       "score_levels": {
         "0": "No structured documentation. Prose-only or absent.",
@@ -187,7 +187,7 @@
 
     "3.3_intent_quality": {
       "name": "Intent Quality",
-      "cluster": "3_documentation_and_intent",
+      "cluster": "3_documentation_readiness",
       "description": "Is the documentation well-structured, appropriately concise, free of redundancy, and useful to an agent? Scored against the six-level documentation hierarchy: purpose, structure, intended behaviour, main use cases, error handling, edge cases.",
       "evidence_sources": ["Figma", "Code"],
       "score_levels": {
@@ -199,10 +199,10 @@
       }
     },
 
-    "3.4_usage_guidance_formalisation": {
-      "name": "Usage Guidance Formalisation",
-      "cluster": "3_documentation_and_intent",
-      "description": "Are usage constraints expressed as explicit rules (enforceable) or as qualitative guidance (aspirational)?",
+    "3.4_usage_guidance_structure": {
+      "name": "Usage Guidance Structure",
+      "cluster": "3_documentation_readiness",
+      "description": "Are usage constraints organised with labelled sections and explicit rules rather than narrative prose?",
       "evidence_sources": ["Code"],
       "score_levels": {
         "0": "No usage guidance documented.",
@@ -213,10 +213,10 @@
       }
     },
 
-    "3.5_documentation_frame_metadata": {
-      "name": "Documentation Frame Metadata",
-      "cluster": "3_documentation_and_intent",
-      "description": "Can structural metadata be extracted from Figma documentation pages? What component anatomy, variant inventory, and composition patterns are readable from the file structure?",
+    "3.5_in_file_documentation_structure": {
+      "name": "In-File Documentation Structure",
+      "cluster": "3_documentation_readiness",
+      "description": "Does the Figma file contain structured documentation an agent can read directly, without external lookup? Scores whether documentation is co-located with components and readable from the file structure.",
       "evidence_sources": ["Figma"],
       "score_levels": {
         "0": "No documentation frames or extractable metadata in Figma.",

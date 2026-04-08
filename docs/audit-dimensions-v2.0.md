@@ -128,26 +128,41 @@ Evidence: Code only. Not assessable from Figma.
 
 ---
 
-## Cluster 3: Documentation and Intent
+## Cluster 3: Documentation Readiness
 
 Whether the system can explain itself to an agent.
 
-### 3.1 Component description coverage
+### Discoverability -- can the agent find the documentation?
 
-Do components have descriptions? Of those with descriptions, what percentage
-carry functional intent (when to use, when not to use, expected behaviour)
-rather than visual description or implementation detail?
+### 3.1 Functional intent coverage
+
+Do components have descriptions that carry functional intent (when to use,
+when not to use, expected behaviour) rather than visual description or
+implementation detail? Scores whether intent is present, not whether a
+description field exists.
 
 See intent definition in the Intent section of this file.
 
 Evidence: Figma (description fields) + Code (JSDoc, README, Storybook)
 
-### 3.2 Documentation structure and machine-readability
+### 3.5 In-file documentation structure
 
-Is component documentation structured (frontmatter, typed fields, consistent
-schemas) or primarily narrative prose? Are usage examples written as runnable
-code or as screenshots? Could an agent query the documentation and retrieve
-a reliable answer to "when should I use ComponentX vs ComponentY"?
+Does the Figma file contain structured documentation an agent can read
+directly, without external lookup? Scores whether documentation is co-located
+with components and readable from the file structure. The reader schema is
+adapted per test vehicle.
+
+Evidence: Figma (MCP inspection of documentation frames)
+
+### Readability -- does the documentation structure reduce hallucination and assumption?
+
+### 3.2 Documentation indexing
+
+Is component documentation indexed via schemas, frontmatter, or queryable
+structure that lets an agent look things up rather than reading everything
+linearly? Are usage examples written as runnable code or as screenshots?
+Could an agent query the documentation and retrieve a reliable answer to
+"when should I use ComponentX vs ComponentY"?
 
 Evidence: Code (Storybook, MDX, docs site)
 
@@ -180,19 +195,20 @@ documentation hierarchy.
 
 Evidence: Figma + Code
 
-### 3.4 Usage guidance formalisation
+### 3.4 Usage guidance structure
 
-Are usage constraints expressed as explicit rules (enforceable) or as
-qualitative guidance (aspirational)? Are do/don't patterns documented as
-structured rules or as prose recommendations?
+Are usage constraints organised with labelled sections and explicit rules
+rather than narrative prose? Are do/don't patterns documented as structured
+rules or as prose recommendations?
 
 Evidence: Code (docs, Storybook)
 
-### 3.5 Documentation frame metadata
+### 3.5 In-file documentation structure
 
-Can structural metadata be extracted from Figma documentation pages? What
-component anatomy, variant inventory, and composition patterns are readable
-from the file structure? The reader schema is adapted per test vehicle.
+Does the Figma file contain structured documentation an agent can read
+directly, without external lookup? What component anatomy, variant inventory,
+and composition patterns are readable from the file structure? The reader
+schema is adapted per test vehicle.
 
 Evidence: Figma (MCP inspection of documentation frames)
 

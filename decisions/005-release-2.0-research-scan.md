@@ -95,7 +95,7 @@ The structural layer built on top of tokens.
 
 Evidence: Figma (MCP spot-checks) + Code (component source files)
 
-**Cluster 3: Documentation and Intent**
+**Cluster 3: Documentation Readiness**
 Whether the system can explain itself to an agent.
 
 - 3.1 Component description coverage (percentage with descriptions, percentage with intent)

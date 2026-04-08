@@ -1,8 +1,8 @@
-# AI-Readiness Audit Prompt v3.0
+# AI-Readiness Audit Prompt v3.1
 
-Version: 3.0
-Date: 2026-04-07
-Schema: `audit/schema/audit-schema.json` (v3.0), `audit/schema/remediation-schema.json` (v1.0)
+Version: 3.1
+Date: 2026-04-08
+Schema: `audit/schema/audit-schema.json` (v3.0), `audit/schema/remediation-schema.json` (v1.0), `audit/schema/editorial-schema.json` (v1.0)
 Weights: `config/scoring-weights.json`
 
 ---
@@ -452,11 +452,9 @@ rather than hardcoded values?
 REST API for confirming component-level token layer existence (5e). Both sources
 are required — REST API alone is insufficient.
 
-### 6. Component description coverage (slug: `component_description_coverage`, weight: 0.12)
+### 6. Functional intent coverage (slug: `functional_intent_coverage`, weight: 0.12)
 
-Do components have descriptions that capture functional intent? This dimension
-scores coverage: does intent exist? Distinct from Dimension 10, which scores
-quality.
+Do components have descriptions that carry functional intent rather than visual description or implementation detail? This dimension scores coverage: does intent exist? Distinct from Dimension 10, which scores quality.
 
 **Sub-checks:**
 
@@ -679,7 +677,12 @@ root entries explaining when to use each component" is a condition.
 
 ### Three-file output
 
-Each audit run produces two files. A third (editorial) is human-authored separately.
+Each audit run produces three JSON files plus one editable Markdown template.
+The editorial JSON is pre-populated by the audit engine from its own generated
+content. The Markdown template is rendered from the editorial JSON via
+`scripts/render-editorial.mjs` and serves as the editing surface for
+non-technical reviewers. Edits compile back to JSON via
+`scripts/compile-editorial.mjs`.
 
 **File 1: Audit JSON**
 
@@ -775,23 +778,110 @@ Optional fields:
 - `projected_score_improvement` (string)
 - `finding_ids` (array of string)
 
-### Markdown report
+**File 3: Editorial JSON**
 
-After producing both JSON files, generate a Markdown report derived from them.
-The Markdown is a rendering of the JSON -- never the other way around.
+Path: `audit/[system]/[version]/[system]-editorial-[version].json`
+Schema: `audit/schema/editorial-schema.json` v1.0
+Contains: pre-populated prose from the audit output, ready for human editing.
 
-The Markdown report should include:
-- Executive summary with overall score and phase readiness
-- Phase readiness detail: blocking dimensions, warning dimensions, conditions
-  for advancement
-- Cluster-by-cluster breakdown with cluster summary, score, and dimensions
-- Each dimension: score, severity, narrative, finding IDs
-- Remediation roadmap sorted by priority tier (tier 1 first, then tier 2, then tier 3)
-- Top blockers section
-- Data gaps section
-- Finding detail table
+Required fields in `meta`:
+- `schema_version`: "1.0"
+- `audit_ref`: must match the audit JSON `audit_id` exactly
 
-Write both JSON files first. Then render the Markdown from them.
+Pre-populate the following sections from the audit output:
+
+`report`:
+- `executive_summary`: two to three sentences summarising overall score, phase
+  readiness, and the single most important action. Write this as client-facing
+  prose, not technical summary.
+
+`clusters`: for each scored cluster, populate:
+- `narrative`: the `cluster_summary` value from the audit JSON
+- `value_framing`: one sentence on what this cluster's current state means
+  operationally for the client. Draw from the impact model category definitions
+  below (see Impact model guidance).
+
+`dimensions`: for each scored dimension, populate:
+- `narrative`: the `narrative` value from the audit JSON
+
+`findings`: for each finding with severity blocker or warning, populate:
+- `summary`: the `summary` value from the audit JSON
+- `description`: the `description` value from the audit JSON
+- `recommendation`: the `recommendation` value from the audit JSON
+
+`remediation`: for each remediation item, populate:
+- `action`: the `action` value from the remediation JSON
+- `value_framing`: the `value_framing` value from the remediation JSON
+
+All pre-populated fields are drafts. A human editor reviews and rewrites any
+field that needs client-facing polish. The front-end merge logic is unchanged:
+it prefers editorial content over audit content when present, and falls back
+to audit JSON content when a field is absent.
+
+### Editable Markdown template
+
+After producing the three JSON files, run
+`node scripts/render-editorial.mjs --system [system] --version [version]`
+to generate the editable Markdown template. The Markdown template is the
+editing surface for non-technical reviewers; it compiles back to the
+editorial JSON via `scripts/compile-editorial.mjs`. Do not produce a
+separate read-only Markdown report.
+
+The render script reads the editorial JSON and produces a Markdown file
+with `<!-- field: path -->` / `<!-- /field -->` delimiters around every
+editable field. Reviewers edit content between the delimiters. The compile
+script parses the delimiters back into JSON, updates `last_edited_by` and
+`last_edited_at`, and overwrites the editorial JSON.
+
+Write all three JSON files first. Then run the render script.
+
+---
+
+## Impact model guidance
+
+The impact model maps audit scores to operational consequences across four categories. Use it when writing `value_framing` text on remediation items and cluster narratives in the editorial JSON. The model provides the causal language; do not invent generic language when the model is specific.
+
+### Four categories and their dimension sources
+
+| Category | What it measures | Primary dimensions |
+|---|---|---|
+| `correction_cycles` | Human intervention time when AI builds UI without sufficient documentation | 3.1, 3.3, 3.5 |
+| `theme_rework` | Manual update cost when token architecture forces changes to propagate by hand | 1.2, 1.3, 2.1 |
+| `parity_defects` | Defects from undocumented Figma-to-code mismatches surfacing in QA or production | 6.1, 6.2, 6.3, 6.4, 6.5, 6.6 |
+| `token_efficiency` | Token consumption overhead from poor documentation, flat naming, and undocumented gaps | 1.3, 1.4, 1.6, 3.1, 3.3, 3.5, 5.1, 5.7, 6.6 |
+
+### Assigning impact_categories to remediation items
+
+Assign categories based on which dimensions the remediation item addresses:
+
+- A remediation item for 3.1 (functional intent coverage) affects `correction_cycles` and `token_efficiency`.
+- A remediation item for 1.3 (token architecture depth) or 2.1 (component-to-token binding) affects `theme_rework` and `token_efficiency`.
+- A remediation item for 6.6 (documentation of parity gaps) affects `parity_defects` and `token_efficiency`.
+- A remediation item addressing multiple dimensions may carry multiple categories.
+- `token_efficiency` is a secondary category for most documentation and naming improvements. Include it when the primary dimension appears in the token_efficiency column above.
+
+### Writing value_framing text
+
+Each remediation item's `value_framing` should name the operational consequence in one to two sentences. Use the category definitions as the source:
+
+- **correction_cycles:** "Without functional descriptions, every AI-assisted component selection requires a human to intervene and re-specify. Each correction adds [N] minutes per component interaction."
+- **theme_rework:** "Flat [spacing/typography/shape] tokens mean every brand or theme change requires manual updates across all components using those values rather than propagating automatically."
+- **parity_defects:** "Undocumented parity gaps are silent error sources. Each undocumented mismatch is a potential defect that surfaces in QA or production rather than being anticipated at the design stage."
+- **token_efficiency:** "A well-structured design system is a token-efficient one. Every gap in naming, documentation, or parity forces the agent to reason from first principles, consuming more tokens per interaction."
+
+For `token_efficiency`, note the ESG dimension when relevant to the client: token consumption has both a financial and an environmental cost. Include this framing when the audit surfaces significant token architecture gaps (cluster 1 or cluster 3 scores below 2).
+
+### Connecting audit data to the impact model
+
+The following audit output fields feed the client-side impact calculator in the dashboard. The prompt does not compute formulas -- that is front-end logic -- but ensure these fields are populated correctly in the audit JSON so the calculator can read them:
+
+- `summary.component_count`: total published components. Feeds correction_cycles formula.
+- Dimension 3.1 score: proxy for `undocumented_rate`. Lower score = higher correction rate.
+- Dimension 1.3 score: proxy for flat token count severity. Lower score = higher theme_rework cost.
+- Dimension 6.6 score: proxy for undocumented gap count. Lower score = higher parity_defect risk.
+- Dimension 5.1 and 5.7 scores: contribute to token_efficiency multiplier.
+
+The overall audit score is a rough proxy for token efficiency across the system: a higher-scoring system is a more token-efficient system.
 
 ---
 
@@ -810,11 +900,11 @@ Write both JSON files first. Then render the Markdown from them.
 | 2.2 component_api_composability | CAC |
 | 2.3 variant_completeness | VC |
 | 2.4 escape_hatch_usage | EH |
-| 3.1 component_description_coverage | CDC |
-| 3.2 documentation_structure | DS |
+| 3.1 functional_intent_coverage | CDC |
+| 3.2 documentation_indexing | DS |
 | 3.3 intent_quality | IQ |
-| 3.4 usage_guidance_formalisation | UGF |
-| 3.5 documentation_frame_metadata | DFM |
+| 3.4 usage_guidance_structure | UGF |
+| 3.5 in_file_documentation_structure | DFM |
 | 4.x (Cluster 4 dimensions) | CB-{nn} |
 | 5.1 naming_convention_consistency | NC |
 | 5.2 versioning_and_changelog | VCL |
@@ -860,7 +950,11 @@ retain that prefix for continuity; new findings in Dimension 8 use `PRG-`.
 
 ## Changelog
 
-### v3.0 (2026-04-07)
+### v3.1 (2026-04-08)
+
+- **Editorial JSON pre-population.** The audit engine now produces all three files per run. The editorial JSON is pre-populated from the audit output (cluster narratives, dimension narratives, finding prose, remediation value_framing, executive summary). It is a draft for human editing, not a blank file. The front-end merge logic is unchanged.
+- **Impact model guidance added.** New section documents the four impact categories (correction_cycles, theme_rework, parity_defects, token_efficiency), the dimension-to-category mapping, rules for assigning impact_categories to remediation items, value_framing language per category, and which audit output fields feed the client-side impact calculator. ADR 010 naming applied throughout.
+- **prompt_version** bumped to "3.1".
 
 - **Three-file output architecture.** Audit JSON and remediation JSON are now
   separate files. The audit JSON (schema v3.0) contains scores, findings, and

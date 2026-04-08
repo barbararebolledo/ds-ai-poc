@@ -1,5 +1,36 @@
 # Changelog
 
+## [ADR-010] -- 2026-04-08
+
+Cluster 3 renamed from "Documentation and Intent" to "Documentation Readiness".
+Four dimensions renamed. Discoverability/Readability sub-category taxonomy introduced.
+
+### Dimension renames
+- 3.1: Component Description Coverage → Functional Intent Coverage
+- 3.2: Documentation Structure and Machine-Readability → Documentation Indexing
+- 3.4: Usage Guidance Formalisation → Usage Guidance Structure
+- 3.5: Documentation Frame Metadata → In-File Documentation Structure
+- 3.3 Intent Quality: unchanged (name already clear)
+
+### Sub-category taxonomy
+- Discoverability (3.1, 3.5): can the agent find the documentation? Co-location principle applies.
+- Readability (3.2, 3.3, 3.4): given access, can the agent parse and use the documentation?
+
+### Co-location principle scope confirmed
+- Applies to 3.1 and 3.5 (Discoverability) only.
+- Does not apply to 3.4. Carbon's 4/4 on 3.4 confirmed as legitimate: code-side structured guidance is the evidence source, not Figma accessibility.
+
+### Files changed
+- CLAUDE.md -- cluster and dimension names updated
+- data/dimension-reference.json -- JSON keys renamed, cluster field updated, version bumped to 2.3
+- config/scoring-weights.json -- cluster key and dimension keys renamed
+- prompts/audit-prompt.md -- finding ID table slugs updated, dimension heading updated
+- docs/audit-dimensions-v2.0.md -- cluster and dimension headings updated, sub-category structure added
+- audit/schema/editorial-schema.json -- example dimension key in comment updated
+- decisions/005-release-2.0-research-scan.md -- cluster heading updated
+
+---
+
 ## [v3.0] -- 2026-04-07
 
 Three-file output architecture. Remediation framework formalised. Breaking schema change from v2.2.

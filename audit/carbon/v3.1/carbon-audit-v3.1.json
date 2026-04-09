@@ -131,7 +131,7 @@
       "0_prerequisites": 75.0,
       "1_token_and_variable_system": 58.3,
       "2_component_quality": 81.2,
-      "3_documentation_and_intent": 45.0,
+      "3_documentation_readiness": 45.0,
       "4_design_quality_baseline": 76.9,
       "5_governance_and_ecosystem": 82.1,
       "6_design_to_code_parity": 54.2
@@ -289,8 +289,8 @@
         }
       }
     },
-    "3_documentation_and_intent": {
-      "cluster_name": "Documentation and Intent",
+    "3_documentation_readiness": {
+      "cluster_name": "Documentation Readiness",
       "cluster_summary": "Severe split: code-side documentation is excellent (MDX, structured API docs, usage guidelines), but Figma-side descriptions are nearly absent (5.1% components, 0% sub-component doc frames). Co-location principle not satisfied: external docs exist but no declared path from Figma components.",
       "cluster_score": 45.0,
       "dimensions": {

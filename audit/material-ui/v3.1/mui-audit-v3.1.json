@@ -130,7 +130,7 @@
       "0_prerequisites": 75.0,
       "1_token_and_variable_system": 58.3,
       "2_component_quality": 81.2,
-      "3_documentation_and_intent": 50.0,
+      "3_documentation_readiness": 50.0,
       "4_design_quality_baseline": 74.1,
       "5_governance_and_ecosystem": 71.4,
       "6_design_to_code_parity": 62.5
@@ -289,8 +289,8 @@
         }
       }
     },
-    "3_documentation_and_intent": {
-      "cluster_name": "Documentation and Intent",
+    "3_documentation_readiness": {
+      "cluster_name": "Documentation Readiness",
       "cluster_summary": "Severe co-location gap: rich documentation exists on mui.com and in code MDX files, but Figma component descriptions contain code import snippets instead of intent. The system cannot explain itself to an agent working from Figma alone.",
       "cluster_score": 50.0,
       "dimensions": {

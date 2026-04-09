@@ -31,7 +31,7 @@
     {
       "id": "REM-001",
       "action": "Add functional intent descriptions to Figma COMPONENT_SET root entries for all 45 primary components. Source text from existing code-side MDX overview paragraphs. Start with the 10 most-used components (Button, Data Table, Dropdown, Text Input, Accordion, Modal, Notification, Tabs, Checkbox, Toggle).",
-      "affected_cluster": "3_documentation_and_intent",
+      "affected_cluster": "3_documentation_readiness",
       "affected_dimensions": [
         "3.1_component_description_coverage",
         "3.3_intent_quality",
@@ -100,7 +100,7 @@
     {
       "id": "REM-005",
       "action": "Add YAML frontmatter to MDX documentation files with structured fields: component_name, purpose, category, status, related_components. Apply to all 126 component MDX files. Auto-fixable with a script.",
-      "affected_cluster": "3_documentation_and_intent",
+      "affected_cluster": "3_documentation_readiness",
       "affected_dimensions": [
         "3.2_documentation_structure_machine_readability"
       ],
@@ -143,7 +143,7 @@
     {
       "id": "REM-010",
       "action": "Add Error handling and Edge cases sections to the 10 most-used component MDX files (Button, Data Table, Dropdown, Text Input, Accordion, Modal, Notification, Form, Select, Tabs). This completes levels 5 and 6 of the documentation hierarchy.",
-      "affected_cluster": "3_documentation_and_intent",
+      "affected_cluster": "3_documentation_readiness",
       "affected_dimensions": [
         "3.3_intent_quality"
       ],

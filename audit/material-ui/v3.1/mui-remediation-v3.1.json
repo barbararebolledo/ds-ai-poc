@@ -9,7 +9,7 @@
     {
       "id": "REM-001",
       "action": "Port functional intent descriptions from the docs site (mui.com) to Figma component set root entries. For each of the 40 component sets: add a one-sentence purpose statement, 'when to use', and 'when not to use' guidance. Add the docs site URL to the Figma component link field to establish co-location.",
-      "affected_cluster": "3_documentation_and_intent",
+      "affected_cluster": "3_documentation_readiness",
       "affected_dimensions": [
         "3.1_component_description_coverage",
         "3.3_intent_quality",
@@ -75,7 +75,7 @@
     {
       "id": "REM-004",
       "action": "Formalise usage guidance on the docs site: add structured 'When to use' / 'When not to use' sections to component MDX pages. Create a machine-readable frontmatter field (e.g. usage_guidance) with structured do/don't rules for the top 20 components.",
-      "affected_cluster": "3_documentation_and_intent",
+      "affected_cluster": "3_documentation_readiness",
       "affected_dimensions": [
         "3.4_usage_guidance_formalisation",
         "3.3_intent_quality"

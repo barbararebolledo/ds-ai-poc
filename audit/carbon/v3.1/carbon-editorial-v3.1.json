@@ -19,7 +19,7 @@
       "narrative": "Strong component architecture: 2856 published variants, comprehensive state coverage, TypeScript APIs, and meaningful token binding including spacing and typography on form components.",
       "value_framing": "Strong component architecture in both Figma and code enables reliable agent composition, but inconsistent token binding depth means some components are more theme-aware than others."
     },
-    "3_documentation_and_intent": {
+    "3_documentation_readiness": {
       "narrative": "Severe split: code-side documentation is excellent (MDX, structured API docs, usage guidelines), but Figma-side descriptions are nearly absent (5.1% components, 0% sub-component doc frames). Co-location principle not satisfied: external docs exist but no declared path from Figma components.",
       "value_framing": "Without functional descriptions in Figma, every AI-assisted component selection requires a human to intervene and re-specify. The excellent code-side documentation is invisible to agents consuming only the Figma API."
     },

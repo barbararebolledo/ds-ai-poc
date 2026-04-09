@@ -19,7 +19,7 @@
       "narrative": "Excellent component API design in code (typed, composable, slots API). Strong variant completeness in Figma (33 variant properties, comprehensive state coverage). Token bindings inconsistent -- some components use Variables, others resolve to hex values.",
       "value_framing": "Strong component API design in code enables reliable agent-driven composition, but inconsistent token bindings mean theme switches may produce visual breaks on unbound components."
     },
-    "3_documentation_and_intent": {
+    "3_documentation_readiness": {
       "narrative": "Severe co-location gap: rich documentation exists on mui.com and in code MDX files, but Figma component descriptions contain code import snippets instead of intent. The system cannot explain itself to an agent working from Figma alone.",
       "value_framing": "Without functional descriptions in Figma, every AI-assisted component selection requires a human to intervene and re-specify. Each correction adds minutes per component interaction."
     },

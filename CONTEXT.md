@@ -1,206 +1,43 @@
 # Context
 
-## What this practice is building toward
+## What this project is proving
 
-The hypothesis is that design systems can be made machine-readable enough that AI agents produce reliable, reviewable output from them. Not perfect output, but output with a known quality level that correlates to measurable properties of the system. If a system scores 4/4 on token implementation and 1/4 on component descriptions, an agent working with it will resolve colours correctly but generate incorrect usage guidance. The audit is the measurement tool that makes this correlation visible. The goal is a repeatable methodology that Accenture Song can apply to any client design system to determine its AI-readiness and prioritise remediation.
+Design systems can be made machine-readable enough that AI agents produce reliable, reviewable output from them. Not perfect output, but output with a known quality level that correlates to measurable properties of the system. If a system scores well on token implementation but poorly on component descriptions, an agent working with it will resolve colours correctly but generate incorrect usage guidance. The audit is the measurement tool that makes this correlation visible and actionable.
 
-## What exists in this repo
+The core claim is that intent -- functional purpose, constraints, flexibility boundaries -- is the property that determines whether an agent can use a design system well. Systems without encoded intent force agents into guessing. Systems with encoded intent let agents follow instructions. The audit measures whether intent is present, findable, and structured.
 
-The **three-layer token system** (system/tokens/) demonstrates the architecture that makes a design system machine-readable: primitives hold raw values, semantic tokens alias primitives by role, component tokens alias semantic tokens by component property and state. Alias chains must remain unbroken. This architecture was built from scratch for the POC.
+## How the methodology evolved
 
-The **Button POC** (system/contracts/button.contract.json, system/docs/button.md) is a single component implemented against the three-layer architecture with all properties bound to Figma Variables. It proves that a component defined this way can be fully resolved from tokens by an AI agent without human intervention.
+The project started as a flat checklist of eight dimensions scored against a single Figma library (Toimi). The first meaningful shift came when the MUI audit revealed that 96.2% of existing component descriptions were code snippets, not functional intent. Descriptions existed but intent was absent. That finding forced a distinction between "has a description" and "describes intent" that became the foundation of how Cluster 3 is structured.
 
-The **component contract format** (system/contracts/) defines the schema for describing a component's properties, variants, states, and token bindings in JSON. It is the interface between Figma (where the component lives) and the agent (which reads the contract to understand how to use it).
+The second shift was the move from flat dimensions to seven clusters. As the dimension count grew from 8 to 56 (adding code-side parity, design quality baseline, governance, and prerequisites), a flat list stopped being navigable. The cluster structure reflects the actual dependency chain: tokens underpin components, components need documentation, documentation needs structure, the system needs governance. Each cluster is scored independently, but the dependency relationships determine where remediation effort should start.
 
-The **audit structure** (audit/toimi/) contains versioned AI-readiness assessments of the Toimi Foundation and Component libraries. Each version has a JSON source of truth and a Markdown summary derived from it. Audits are organised by library and version (v1.0, v1.2).
+The third shift came from the Carbon/MUI benchmark. Both systems scored within a point of each other (~63/100) and shared the same four blockers. That convergence revealed that the blockers are structural -- they reflect how design system teams commonly work, not system-specific failures. It also surfaced the co-location principle: documentation that exists but is not declared where the agent looks is functionally invisible. The distinction between discoverability (can the agent find it?) and readability (can it parse what it found?) became the organising taxonomy for Cluster 3.
 
-The **decisions directory** (decisions/) records architecture decision records for the audit methodology and its evolution.
+The fourth shift was the three-file output architecture. The audit JSON, remediation JSON, and editorial JSON have different owners and different lifecycles. Mixing them in a single file created write risk and authorship confusion. Separating them also directly supports the target state: a recurring QA agent that writes audit files, diffs them against previous runs, and proposes remediation updates for human review.
+
+## What we have learned from the audits
+
+**The intent gap is real and consistent.** MUI's 96.2% code-snippet rate and Carbon's equivalent pattern confirm that design system documentation overwhelmingly describes implementation, not intent. This is the single largest source of AI-readiness failure across both systems.
+
+**Mature systems converge on the same blockers.** MUI (63.6/100) and Carbon (62.5/100) are structurally similar in their failures despite being built by different teams with different philosophies. The shared blockers are: functional intent coverage, token documentation, in-file documentation structure, and documentation of parity gaps. This suggests the audit is measuring something real about how design system practice works, not artefacts of individual systems.
+
+**The 3.4 gap is a quality difference, not a format artefact.** Carbon scores 4/4 on usage guidance structure while MUI scores 2/4. The difference is real: dedicated, labelled usage sections are more reliably parseable than equivalent guidance scattered through prose. Structure is a readability property.
+
+**Co-location matters for discoverability, not for quality.** External documentation with no declared path from the component is functionally invisible to the agent. But the co-location principle only affects whether the agent can find the documentation (3.1, 3.5), not whether the documentation is well-written (3.2, 3.3, 3.4). Carbon's 4/4 on 3.4 despite scoring 0 on 3.1 confirmed this distinction.
 
 ## Open questions
 
-Whether audit scores correlate to remediation success over time has not been tested. v1.0 is a baseline. If scores improve after remediation and agent output quality improves correspondingly, the methodology is validated. If scores improve but output quality does not, the dimensions are wrong.
+**Does remediation improve scores and output quality together?** The audit has never been run before and after a remediation cycle. If scores improve but agent output quality does not improve correspondingly, the dimensions are measuring the wrong things.
 
-Whether the current eight dimensions (plus governance as the ninth) are the right ones is an open question. Future audits against different design systems may surface gaps that require new dimensions or reveal that existing ones overlap.
+**Does the token efficiency hypothesis hold empirically?** The claim that well-structured intent documentation reduces token consumption is grounded in reasoning but not yet measured. The MVP experiment (same task, with and without intent documentation, measuring token count and correctness) has been planned but not run.
 
-Whether Figma-to-code synchronisation checks are feasible at scale with the current MCP tooling is unproven. The v1.0 audit hit timeout limits on full-file queries and required page-by-page workarounds. A mature system with hundreds of components may require a different tooling approach.
+**Is the code-side rebuild threshold right?** The heuristic (0/4 or 1/4 on three or more code quality dimensions flags a rebuild candidate) is a draft. It needs validation from a developer who can assess whether the dimension combination and threshold match real-world codebase judgement.
 
-## Session update — March 2026
+**How should the dashboard support AI literacy?** Stakeholders lack a mental model for what agents do with design systems. The dashboard needs to teach while it reports -- not patronise, not assume knowledge, but build intuition about how documentation quality affects AI behaviour. This is a design principle, not just a content decision. (Captured in Sparks/2026-04-09-ai-literacy-design-principle.md and Sparks/2026-04-08-design principles.md.)
 
-### Reorientation: from POC script to auditing agent
+## Where the Thinking Track feeds in
 
-The tool has been reoriented around a clearer target state. The four-phase sequence
-is: Audit (Phase 1), MVP (Phase 2), Beta (Phase 3), Stable (Phase 4). Phase 4 is the
-vision: multiple agents active, the system learns, designers define intent. Every
-decision made now should be reversible or extensible toward it.
+The intellectual foundations -- the intent hypothesis, the six-level documentation hierarchy, the parity principle, the impact model -- live in the Thinking Track vault (`Thinking-track/`). This project implements confirmed decisions from the Thinking Track; it does not develop them. When the Thinking Track produces a confirmed framework or principle, it arrives as a handoff brief in `Sparks/`. When an audit session produces findings with intellectual significance, they are captured back to `Thinking-track/Evidence/`.
 
-The audit tool is now explicitly client-agnostic. To apply it to a specific client,
-duplicate the repo and create client-specific prompt and config variants. The core
-script, schema, and dimensions are not modified for client needs.
-
-### Dimensions expanded to ten
-
-A tenth dimension has been added: documentation quality and intent coverage. It scores
-whether component documentation captures functional intent rather than visual
-description. It reads from the component description field first; falls back to
-documentation frames if the description is absent or thin. This dimension is also an
-AI-readiness signal because bloated or low-intent documentation pollutes RAG retrieval
-in Phase 3.
-
-The full ten dimensions are defined in CLAUDE.md as the stable reference. Prompt files
-reference them rather than redefining them.
-
-### Test vehicle change
-
-The Toimi library served as the initial POC test vehicle. From Release 1.3 onward the
-primary test vehicle is Material UI (Figma community file + GitHub repository). It is
-a well-documented public system with known gaps between the Figma and code
-representations -- good for stress-testing the diff logic. A studio-built library
-follows in Release 2.1 for a more realistic real-world test.
-
-### Findings must reference contract fields
-
-Every finding in the audit JSON must reference which contract field it relates to:
-token definition, component contract, documentation contract, or governance rule.
-This is required for future codegen pipeline compatibility. The finding structure was
-designed in the schema session and written to disk as audit-schema.json (originally audit-schema_v1.3.json).
-
-### JSON schema is the continuity layer
-
-The audit JSON schema (audit/schema/audit-schema.json) is the continuity layer across
-all releases. Additive changes only after v1.3. Every release produces a versioned
-prompt file committed alongside the findings it produced. The prompt version is
-recorded in the audit JSON.
-
-### What the audit is not doing yet
-
-The script does not write to Figma, does not automate remediation, does not run as a
-continuous agent, and does not build a Figma plugin. These are Phase 2 and later
-capabilities. The plugin question is assessed at Release 3.0 with evidence.
-
-### Open questions carried forward
-
-The eight questions from the original open questions section remain open. Additional
-open items from the skills review and gap analysis are tracked in decisions/ as
-numbered ADR files. Key items pending: reading the Edenspiekermann audit-design-system
-skill source, reading the Firebender sync-figma-token skill source, confirming the
-Material UI Figma community file URL, confirming the MUI code token format, and
-aligning the schema with the colleague working on the write side of the POC.
-
-## Session update — April 2026 (Release 2.2-schema)
-
-### Front-end pre-handoff decisions
-
-This session prepares the audit schema and supporting data for the front-end build
-(Konsta). Five tasks completed in sequence.
-
-**React framework for front-end.** The front-end will be a React application consuming
-the audit JSON directly. No markdown rendering. JSON is the source of truth. The
-framework choice aligns with Konsta's stack and with the audit tool's JSON-primary
-architecture.
-
-**Static JSON loading.** The front-end loads audit JSON files statically (file import
-or fetch from a known path). No API server. No database. The audit tool produces JSON;
-the front-end reads it. This keeps the architecture simple and the front-end
-deployable as a static site.
-
-**Manifest approach for benchmarks.** When multiple audit outputs exist (different
-systems or versions), a manifest file lists available audits. The front-end reads the
-manifest to populate a selector. The manifest is a simple JSON array with metadata
-(system_name, audit_date, run_id, file path), not embedded in the audit schema.
-
-**Comparison model.** Score comparison between two audit runs uses the existing
-version_delta structure in the schema. The front-end renders delta as a side-by-side
-or overlay view. No new schema structure needed.
-
-**Dimension reference extraction.** All 56 dimensions extracted from CLAUDE.md and
-scoring criteria into `data/dimension-reference.json`. Keyed by dimension ID, each
-entry has name, cluster, description, evidence_sources, and score_levels. The
-front-end reads this file to render scoring rubrics without parsing CLAUDE.md. Note:
-the actual count is 56 dimensions (not 44 as previously stated -- the count increased
-when Tier 2 dimensions were expanded in v2.0 but the summary text was not updated).
-
-**Finding summary field.** Each finding now has a `summary` field (one-line overview)
-distinct from `description` (full detail). Summary is used in list views; description
-in drill-down views. Added to schema v2.2 and backfilled on all 14 MUI v2.1 findings.
-
-**New meta fields.** Three fields added to the meta block:
-- `system_name` (string, required) -- human-readable name for display.
-- `audit_date` (string, ISO 8601 date, required) -- for date-level grouping.
-- `run_id` (string, required) -- UUID for deduplication and cross-referencing.
-These complement the existing `audit_id` and `timestamp` fields but serve
-front-end display and data management needs specifically.
-
-### Dimension count correction
-
-The CLAUDE.md and exploration plan previously stated "44 dimensions." The actual
-count is 56: 1 (Cluster 0) + 6 (Cluster 1) + 4 (Cluster 2) + 5 (Cluster 3) +
-27 (Cluster 4: 15 Tier 1 + 12 Tier 2) + 7 (Cluster 5) + 6 (Cluster 6). The MUI
-v2.1 audit output already scored all 56. The discrepancy was a documentation lag
-from the v2.0 restructure where Tier 2 dimensions (4.16-4.27) were added but the
-summary count was not updated. Current state section in CLAUDE.md corrected to 56.
-
-## Session update — April 2026 (Schema v2.2 update)
-
-### Two-JSON architecture formalised
-
-The editorial JSON schema (v1.0) has been defined as the companion to the audit
-data JSON. It carries all client-facing prose: edited finding copy, value framing,
-cluster narratives, and report-level content. The front-end merges both at render
-time, preferring editorial content when present.
-
-The editorial JSON keys into the data JSON by cluster key, dimension ID, finding ID,
-and remediation item ID. All sections are optional. An empty editorial JSON (just
-the meta block) is valid; the front-end falls back to the data JSON for everything.
-
-### RemediationItem additions
-
-Three fields added to RemediationItem in the audit schema (v2.2):
-- `id` (string, required): stable identifier (REM-001 pattern) for editorial JSON
-  cross-referencing.
-- `value_framing` (string, optional): operational consequence of not fixing this item.
-  Audit-generated; can be overridden by the editorial JSON.
-- `impact_categories` (array of enum, optional): which impact model categories
-  (correction_cycles, theme_rework, parity_defects, token_efficiency) this action
-  affects. Connects remediation items to the impact calculator.
-
-`component_count` (optional integer) added to Summary for the impact model.
-
-### Content workflow for Eeva
-
-The editorial JSON is the file Eeva edits (via a markdown extraction and compile-back
-workflow). A compile script extracts it to markdown with sections keyed by ID. Eeva
-edits the markdown. The script compiles it back to JSON. The front-end consumes the
-merged result. The glossary and workflow documentation for Eeva are prerequisites
-before she starts editing.
-
-## Session update -- April 2026 (Release 3.0, remediation framework)
-
-### Three-file output architecture
-Audit output split into three files per run joined by audit_id: [system]-audit.json (immutable, accumulates over time), [system]-remediation.json (living plan, editable between runs), [system]-editorial.json (human prose overrides). This architecture directly supports the recurring QA agent target state: the agent writes audit files, diffs them, and proposes remediation updates for human review.
-
-### Remediation framework formalised
-Three remediation types: relocate (docs exist but undeclared), refactor (structure sound, docs missing), rebuild (structure poor, must fix before documenting). Three priority tiers: 1 = necessary for agent readability, 2 = high leverage low effort, 3 = important but high effort. Sort order within remediation file: priority_tier ascending, effort_estimate ascending, severity_rank descending.
-
-### Co-location principle
-Intent documentation must be declared and accessible from the component within the agent's toolchain. Two valid routes score equally: native Figma component description + link field, or in-file documentation pages declared in CLAUDE.md. External documentation with no declared path scores lower on 3.1 -- not because it is external, but because it is undeclared. Client narrative: "The documentation exists. It is just in the wrong place."
-
-### Release milestones restructured
-3.0 = working pilot (schema finalised, front-end built, tool works end-to-end). 4.0 = first client application (Nordea, adaptation sprint). Releases 2.3--2.5 and the old 3.0 collapsed into Release 3.0.
-
-## Session update -- April 2026 (Release 3.1)
-
-### Editorial editing workflow
-
-The editorial JSON is now pre-populated by the audit engine on every run. It is no longer a blank file requiring human authoring from scratch. The audit engine writes executive summary, cluster narratives, dimension narratives, blocker and warning finding prose, and remediation value_framing as a draft. A human editor (Eeva) reviews and rewrites fields that need client-facing polish.
-
-The editing workflow is Markdown-based so non-technical collaborators can edit without touching JSON directly. `scripts/render-editorial.mjs` reads the editorial JSON and generates an editable Markdown template with one labelled block per field. `scripts/compile-editorial.mjs` reads the edited Markdown and writes back to the editorial JSON. The front-end merge logic is unchanged: editorial content takes precedence over audit content when present.
-
-The read-only Markdown report produced by earlier prompt versions has been retired. The editable Markdown template replaces it.
-
-### Cluster 3 renamed
-
-Cluster 3 is now Documentation Readiness (previously Documentation and Intent). Four dimensions renamed per ADR 010: 3.1 Functional Intent Coverage, 3.2 Documentation Indexing, 3.4 Usage Guidance Structure, 3.5 In-File Documentation Structure. Scoring criteria and thresholds unchanged. Finding ID abbreviations stable.
-
-### Benchmark scores confirmed at v3.1
-
-MUI: 63.6/100, not_ready, 4 blockers. Carbon: 62.5/100, not_ready, 6 blockers. Scores match v3.0 exactly, confirming that the naming changes introduced no scoring drift.
+The boundary is: this project asks "does the system score well, and what should the client fix?" The Thinking Track asks "why does this matter, and what does it mean for how design systems should be built?"

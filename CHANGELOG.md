@@ -31,6 +31,33 @@ Four dimensions renamed. Discoverability/Readability sub-category taxonomy intro
 
 ---
 
+## [v3.1] -- 2026-04-08
+
+Benchmark re-runs with v3.1 prompt. Editorial workflow introduced.
+
+### Audit runs
+- MUI re-run: 63.6/100, not_ready, 4 blockers (up from 55.3; reflects prompt improvements, not system changes)
+- Carbon re-run: 62.5/100, not_ready, 6 blockers
+- Both runs use three-file output (audit + remediation + editorial JSON)
+
+### Editorial workflow
+- Editorial JSON pre-populated by audit engine during runs
+- render-editorial.mjs: generates editable Markdown from editorial JSON
+- compile-editorial.mjs: compiles edited Markdown back to JSON
+- Read-only Markdown report retired (editorial JSON + dashboard replaces it)
+
+### Naming
+- ADR 010 naming applied to v3.1 prompt (Cluster 3 and four dimensions renamed)
+
+### Files changed
+- prompts/audit-prompt.md -- v3.1
+- audit/material-ui/v3.1/ -- three output files (audit, remediation, editorial)
+- audit/carbon/v3.1/ -- three output files (audit, remediation, editorial)
+- scripts/render-editorial.mjs -- new
+- scripts/compile-editorial.mjs -- new
+
+---
+
 ## [v3.0] -- 2026-04-07
 
 Three-file output architecture. Remediation framework formalised. Breaking schema change from v2.2.

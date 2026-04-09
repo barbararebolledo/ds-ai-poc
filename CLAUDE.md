@@ -1,5 +1,5 @@
 # CLAUDE.md
-# ds-ai-poc — AI-Readiness Audit for Design Systems
+# ds-ai-audit — AI-Readiness Audit for Design Systems
 
 This file is the persistent context for Claude Code sessions in this repository.
 Read it at the start of every session. Do not override the architectural rules below
@@ -274,11 +274,11 @@ The structural layer built on top of tokens.
 **Cluster 3: Documentation Readiness**
 Whether the system can explain itself to an agent.
 
-*Discoverability* -- can the agent find the documentation?
+*Discoverability* -- can the agent find the documentation? Absent functional intent forces the agent into expensive learning loops with no accuracy guarantee.
 - 3.1 Functional intent coverage (whether functional intent is present in component descriptions, not merely whether a description exists). Evidence: Figma + Code
 - 3.5 In-file documentation structure (whether Figma files contain structured documentation readable directly from the file, without external lookup). Evidence: Figma
 
-*Readability* -- does the documentation structure reduce hallucination and assumption?
+*Readability* -- does the documentation structure reduce hallucination and assumption? Less structure means more inference. More inference means more tokens and more errors per task.
 - 3.2 Documentation indexing (whether documentation is indexed via schemas, frontmatter, or queryable structure an agent can look up rather than read linearly). Evidence: Code
 - 3.3 Intent quality -- scored against a six-level documentation hierarchy
   (see Documentation hierarchy below). Components emphasise purpose and
@@ -359,7 +359,7 @@ Full dimension definitions with scoring criteria are in
 ## Repo structure
 
 ```
-ds-ai-poc/
+ds-ai-audit/
 ├── system/                          # POC design system
 │   ├── tokens/                      # Three-layer token architecture
 │   │   ├── primitives.json
@@ -373,13 +373,17 @@ ds-ai-poc/
 │       └── button.md
 ├── audit/                           # Audit outputs
 │   ├── schema/                      # Audit output schema definitions
-│   │   ├── audit-schema.json        # Additive changes only after v1.3
-│   │   └── editorial-schema.json    # Editorial JSON schema (v1.0)
+│   │   ├── audit-schema.json        # v3.0 -- immutable scores and findings
+│   │   ├── remediation-schema.json  # v1.0 -- living remediation plan
+│   │   └── editorial-schema.json    # v1.0 -- human prose overrides
 │   ├── toimi/                       # Toimi library audits (initial POC)
 │   │   ├── v1.0/
 │   │   └── v1.2/
 │   ├── material-ui/                 # Material UI audits (current test vehicle)
-│   │   └── v1.3/
+│   │   ├── v1.3/
+│   │   └── v3.1/                    # Latest: audit + remediation + editorial JSON
+│   ├── carbon/                      # Carbon Design System audits (benchmark)
+│   │   └── v3.1/                    # Latest: audit + remediation + editorial JSON
 │   ├── baseline/                    # Baseline run for diff comparison
 │   ├── latest/                      # Most recent run
 │   └── diffs/                       # Diff reports between runs
@@ -390,13 +394,27 @@ ds-ai-poc/
 ├── decisions/                       # Architecture decision records (numbered)
 │   ├── 001-audit-methodology-v1.0.md
 │   ├── 002-governance-dimension.md
-│   └── 003-material-ui-test-vehicle.md
+│   ├── 003-material-ui-test-vehicle.md
+│   ├── 004-dimensions-v1.4.md
+│   ├── 005-release-2.0-research-scan.md
+│   ├── 006-release-2.1-schema-iteration.md
+│   ├── 007-release-2.2-scope-and-impact.md
+│   ├── 008-mui-fresh-rerun-handoff.md
+│   ├── 009-remediation-framework.md
+│   └── 010-cluster-3-taxonomy-and-naming.md
 ├── data/                            # Static data for front-end and agent consumption
 │   └── dimension-reference.json     # All dimensions with score levels, keyed by ID
-├── docs/                            # Reserved for GitHub Pages output (v1.3+)
-│   └── release-plan.md              # Full release plan
+├── scripts/                         # API scripts and editorial workflow
+│   ├── output/                      # Cached Figma API responses
+│   ├── render-editorial.mjs         # Generate editable Markdown from editorial JSON
+│   ├── compile-editorial.mjs        # Compile edited Markdown back to editorial JSON
+│   └── *.mjs                        # REST API call scripts and token diff
+├── docs/                            # Documentation
+│   ├── release-plan.md              # Full release plan
+│   ├── audit-dimensions-v2.0.md     # Full dimension definitions
+│   └── onboarding/                  # Onboarding files for new sessions
 ├── CLAUDE.md                        # This file
-├── CONTEXT.md                       # Strategic context and learnings
+├── CONTEXT.md                       # Strategic context and reasoning
 ├── CHANGELOG.md                     # What changed and when
 ├── manifest.json                    # System manifest -- read this first
 └── README.md
@@ -435,9 +453,18 @@ of truth.
    dimension and cluster. Uses `findings[]` with `summary` for list view and
    `description` for detail view.
 5. **Remediation roadmap** -- Priority-sorted list from remediation JSON. Grouped by
-   `priority_tier`, sorted by `effort_estimate` and `severity_rank`. Uses
-   `[system]-remediation.json`.
-6. **Comparison** -- Score delta between two audit runs. Uses `version_delta`.
+   `priority_tier`, tagged by `remediation_type` (relocate/refactor/rebuild), sorted
+   by `effort_estimate` and `severity_rank`. Uses `[system]-remediation.json`.
+6. **Benchmark** -- Score comparison between two audit systems or runs. Uses
+   `version_delta` and side-by-side system data.
+7. **Impact** (update pending) -- Impact calculator projecting annual cost of
+   unresolved audit gaps. Currently renders three cost categories (correction cycles,
+   theme rework, parity defects) with three client input sliders (team size,
+   components per sprint, hourly rate). Needs update: fourth category (token
+   efficiency/sustainability) missing, calculation model simplified from
+   impact-model.md formulas, cluster key uses old name, "High Confidence Estimate"
+   label needs replacing. Full update planned for next front-end session. Uses
+   editorial JSON value framings and audit summary scores.
 
 **Benchmark manifest approach:** When multiple audit outputs exist (different
 systems or different versions of the same system), a manifest file lists
@@ -461,7 +488,7 @@ dimension narratives (`dimensions[key].narrative`), finding prose (`summary`,
 `description`, `recommendation`), and remediation prose (`action`, `value_framing`).
 When the editorial JSON is absent or a specific override is missing, the data JSON
 content is used as-is. The editorial JSON is stored alongside the data JSON in audit
-output directories (e.g. `audit/material-ui/v2.2/editorial.json`), not in `/data`.
+output directories (e.g. `audit/material-ui/v3.1/mui-editorial-v3.1.json`), not in `/data`.
 
 ---
 
